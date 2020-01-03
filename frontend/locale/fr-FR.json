@@ -1,0 +1,9 @@
+{
+  "accordion": {
+    "expandButton": {
+      "labelExpand" : "Montre plus",
+      "labelCollapse": "Montrer moins"
+    }
+  }
+}
+
