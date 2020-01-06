@@ -5,7 +5,7 @@ const main = {
   fontSize: 12,
   margin: '0 0.5em 0 0 !important',
   lineHeight: '2em',
-  textAlign: 'left'
+  textAlign: 'left',
 };
 
 const greyStyle = css({

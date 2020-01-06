@@ -11,7 +11,9 @@ import Author from './components/Author/index';
  */
 const Info = ({ review }) => (
   <div className={styles}>
-    <ReviewDate date={review.date} /> <Author author={review.author} />
+    <ReviewDate date={review.date} />
+    {' '}
+    <Author author={review.author} />
   </div>
 );
 

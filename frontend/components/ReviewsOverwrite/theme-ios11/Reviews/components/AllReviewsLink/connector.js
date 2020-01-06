@@ -7,7 +7,7 @@ import { getProductReviewCount } from '@shopgate/pwa-common-commerce/reviews/sel
  * @param {Object} ownProps The props passed by the parent component
  * @return {Object} The extended component props.
  */
-const mapStateToProps = (state, ownProps)  => ({
+const mapStateToProps = (state, ownProps) => ({
   productId: getCurrentBaseProductId(state, {
     productId: ownProps.productId,
   }),
