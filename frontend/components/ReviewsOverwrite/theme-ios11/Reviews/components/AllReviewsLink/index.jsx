@@ -1,4 +1,4 @@
-import { withPageProductId } from '@shopgate-ps/pwa-extension-kit/connectors/';
+import { withCurrentProduct } from '@shopgate/engage/core';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { bin2hex } from '@shopgate/pwa-common/helpers/data';
@@ -41,4 +41,4 @@ AllReviewsLink.defaultProps = {
   totalReviewCount: null,
 };
 
-export default withPageProductId(connect(AllReviewsLink));
+export default withCurrentProduct(connect(AllReviewsLink));

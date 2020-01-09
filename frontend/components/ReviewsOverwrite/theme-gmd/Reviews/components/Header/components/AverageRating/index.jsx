@@ -2,10 +2,10 @@ import Link from '@shopgate/pwa-common/components/Link';
 import { ITEM_PATH } from '@shopgate/pwa-common-commerce/product/constants';
 import { bin2hex } from '@shopgate/pwa-common/helpers/data';
 import appConfig from '@shopgate/pwa-common/helpers/config';
-import { withPageProductId } from '@shopgate-ps/pwa-extension-kit/connectors/';
+import { withCurrentProduct } from '@shopgate/engage/core';
 import React from 'react';
 import PropTypes from 'prop-types';
-import RatingCount from '../../../../components/RatingCount';
+import RatingCount from '../../../RatingCount';
 import connect from './connector';
 
 /**
@@ -19,7 +19,7 @@ const AverageRating = ({ rating, productId }) => {
     return null;
   }
 
-  const { average = 0, count = 0 } = rating;
+  const { count = 0 } = rating;
   const publicProductId = bin2hex(productId);
 
   return (
@@ -50,4 +50,4 @@ AverageRating.defaultProps = {
   productId: null,
 };
 
-export default withPageProductId(connect(AverageRating));
+export default withCurrentProduct(connect(AverageRating));

@@ -1,15 +1,24 @@
 import { css } from 'glamor';
 import { themeConfig } from '@shopgate/pwa-common/helpers/config';
+import getConfig from '../../helpers/getConfig';
+
+const {
+  sectionColor,
+  sectionTextColor,
+  sectionButtonColor,
+  sectionButtonTextColor,
+  sectionButtonTextSize,
+} = getConfig();
 
 const container = css({
   backgroundColor: themeConfig.colors.shade8,
 });
 
 const sectionButton = css({
-  fontSize: 16,
+  fontSize: sectionButtonTextSize || 16,
   fontWeight: 500,
-  color: '#000',
-  background: themeConfig.colors.shade8,
+  color: sectionButtonTextColor || '#000',
+  background: sectionButtonColor || themeConfig.colors.shade8,
   width: '100%',
   textAlign: 'left',
   outline: 'none',
@@ -20,7 +29,8 @@ const sectionButton = css({
 });
 
 const sectionBlock = css({
-  backgroundColor: '#fff',
+  backgroundColor: sectionColor || '#fff',
+  color: sectionTextColor || null,
   fontSize: 14,
   lineHeight: 1.7,
   wordBeak: 'break-word',

@@ -4,7 +4,7 @@ import { themeName } from '@shopgate/pwa-common/helpers/config';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import connect from './connector';
-import AccordionContainer from '../../components/Accordion';
+import AccordionContainer from '../../components/AccordionContainer';
 import ExpandAndCollapse from '../../components/ExpandAndCollapse';
 import Description from '../../components/DescriptionOverwrite/Description';
 import ReviewsAndroid from '../../components/ReviewsOverwrite/theme-gmd/Reviews/index';

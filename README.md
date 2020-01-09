@@ -2,10 +2,17 @@
 
 Extension will display product properties, product description, product reviews and static infos in an accordion view.
 
+## Demo & Examples
+[See here](demo/index.md)
+
 ## Config
 
-- `canOpenMultiple`: true or false to configurate if more than one accordion section can be open.
-- `accordionItems`: object of accordion items.
+- `accordionItems`: Object of accordion items.
+- `sectionColor`: The background color of an open section.
+- `sectionTextColor`: The text color of an open section.
+- `sectionButtonColor`: The button color.
+- `sectionButtonTextColor`: The color of the button text.
+- `sectionButtonTextSize`: The size of the button text.
 
 ### Params for accordionItems
 
@@ -20,7 +27,7 @@ Extension will display product properties, product description, product reviews 
   - Is optional
 - `isActive`: Define if an acordion section is opened or closed.
   - Can be true or false
-- `preview`: The accordion section will be shown as a previe with a show more / show less button
+- `preview`: The accordion section will be shown as a preview with a show more / show less button
   - Is optional (default false)
   - Can be true or false
 - `sortOrder`: Use an integer to create the sort order. Lowest number will be shown first.
@@ -34,34 +41,34 @@ Please orient on the following example configuration for accordion Items.
 
 ```
 [
-  {
-    "type": "description",
-    "name": "Beschreibung",
-    "isActive": true,
-    "sortOrder": 1
-  },
-  {
-    "type": "reviews",
-    "name": "Bewertungen",
-    "isActive": false,
-    "sortOrder": 4
-  },
-  {
-    "type": "property",
-    "name": "collections",
-    "headline": "Kollektionen"
-    "isActive": true,
-    "sortOrder": 2
-  },
-  {
-    "type": "static",
-    "name": "Static Info",
-    "info": "Here goes your text. <br /> It can contain HTML.",
-    "preview": true,
-    "isActive": true,
-    "sortOrder": 3
-  }
-]
+    {
+      "type": "description",
+      "name": "Description",
+      "isActive": true,
+      "sortOrder": 1
+    },
+    {
+      "type": "reviews",
+      "name": "Reviews",
+      "isActive": false,
+      "sortOrder": 4
+    },
+    {
+      "type": "property",
+      "name": "collections",
+      "headline": "Collections",
+      "isActive": true,
+      "sortOrder": 2
+    },
+    {
+      "type": "static",
+      "name": "Static Info",
+      "info": "Here goes your text. <br /> It can contain HTML.",
+      "preview": true,
+      "isActive": true,
+      "sortOrder": 3
+    }
+  ]
 ```
 
 ## About Shopgate

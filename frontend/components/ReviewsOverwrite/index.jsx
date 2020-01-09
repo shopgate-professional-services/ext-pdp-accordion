@@ -1,4 +1,4 @@
-import { withPageProductId } from '@shopgate-ps/pwa-extension-kit/connectors/';
+import { withCurrentProduct } from '@shopgate/engage/core';
 import connect from './connector';
 
 /**
@@ -14,4 +14,4 @@ const ReviewsOverwrite = ({ show, children }) => {
   return children;
 };
 
-export default withPageProductId(connect(ReviewsOverwrite));
+export default withCurrentProduct(connect(ReviewsOverwrite));

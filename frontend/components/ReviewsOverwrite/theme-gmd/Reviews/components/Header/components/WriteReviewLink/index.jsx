@@ -1,4 +1,4 @@
-import { withPageProductId } from '@shopgate-ps/pwa-extension-kit/connectors/';
+import { withCurrentProduct } from '@shopgate/engage/core';
 import React from 'react';
 import PropTypes from 'prop-types';
 import I18n from '@shopgate/pwa-common/components/I18n';
@@ -35,4 +35,4 @@ WriteReviewLink.defaultProps = {
   productId: null,
 };
 
-export default withPageProductId(connect(WriteReviewLink));
+export default withCurrentProduct(connect(WriteReviewLink));

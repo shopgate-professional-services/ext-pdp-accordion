@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "id": "@shopgate-project/ext-pdp-accordion",
+  "id": "@shopgate-project/pdp-accordion",
   "components": [
     {
       "id": "Accordion",
@@ -9,13 +9,13 @@
       "target": "product.description.after"
     },
     {
-      "id": "descriptionOverwrite",
+      "id": "DescriptionOverwrite",
       "type": "portals",
       "path": "frontend/components/DescriptionOverwrite/index.jsx",
       "target": "product.description"
     },
     {
-      "id": "reviewsOverwrite",
+      "id": "ReviewsOverwrite",
       "type": "portals",
       "path": "frontend/components/ReviewsOverwrite/index.jsx",
       "target": "product.reviews"
@@ -37,13 +37,49 @@
     }
   ],
   "configuration": {
-    "canOpenMultiple": {
+    "sectionColor": {
       "type": "admin",
       "destination": "frontend",
-      "default": false,
+      "default": "",
       "params": {
-        "type": "checkbox",
-        "label": "Allow multiple items to be open at same time"
+        "type": "text",
+        "label": "Background color of an open section"
+      }
+    },
+    "sectionTextColor": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "text",
+        "label": "Text color of an open section"
+      }
+    },
+    "sectionButtonColor": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "text",
+        "label": "Button color"
+      }
+    },
+    "sectionButtonTextColor": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "text",
+        "label": "Button text color"
+      }
+    },
+    "sectionButtonTextSize": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "text",
+        "label": "Button text size"
       }
     },
     "accordionItems": {

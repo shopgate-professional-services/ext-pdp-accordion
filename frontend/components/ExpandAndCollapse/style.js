@@ -1,8 +1,13 @@
 import { css } from 'glamor';
 import { themeConfig } from '@shopgate/pwa-common/helpers/config';
+import getConfig from '../../helpers/getConfig';
+
+const {
+  sectionTextColor,
+} = getConfig();
 
 const expandButton = css({
-  color: '#000',
+  color: sectionTextColor || '#000',
   marginTop: 10,
   textDecoration: `underline ${themeConfig.colors.primary}`,
   ':focus': {

@@ -1,4 +1,4 @@
-import connect from './connector';
+import config from '../../config';
 
 /**
  * The DescriptionOverwrite component.
@@ -6,11 +6,14 @@ import connect from './connector';
  * @param {Object} props The component props.
  * @returns {JSX|null}
  */
-const DescriptionOverwrite = ({ show, children }) => {
+const DescriptionOverwrite = ({ children }) => {
+  // Only show description if it's not defined in config as type
+  const show = !config.accordionItems.some(property => property.type === 'description');
+
   if (!show) {
     return null;
   }
   return children;
 };
 
-export default connect(DescriptionOverwrite);
+export default DescriptionOverwrite;
