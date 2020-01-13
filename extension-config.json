@@ -82,6 +82,24 @@
         "label": "Button text size"
       }
     },
+    "sectionPreviewHeight": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "text",
+        "label": "Height of Section Preview"
+      }
+    },
+    "allowMultipleOpen": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": true,
+      "params": {
+        "type": "checkbox",
+        "label": "Allow multiple items to be open at same time"
+      }
+    },
     "accordionItems": {
       "type": "admin",
       "destination": "frontend",
