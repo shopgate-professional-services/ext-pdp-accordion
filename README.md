@@ -13,6 +13,8 @@ Extension will display product properties, product description, product reviews 
 - `sectionButtonColor`: The button color.
 - `sectionButtonTextColor`: The color of the button text.
 - `sectionButtonTextSize`: The size of the button text.
+- `sectionPreviewHeight`: The height of the section preview in pixel.
+- `allowMultipleOpen`: true or false to configurate if more than one accordion section can be open.
 
 ### Params for accordionItems
 
