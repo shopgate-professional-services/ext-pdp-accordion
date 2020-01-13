@@ -4,6 +4,7 @@ import getConfig from '../../helpers/getConfig';
 
 const {
   sectionTextColor,
+  sectionPreviewHeight,
 } = getConfig();
 
 const expandButton = css({
@@ -17,7 +18,7 @@ const expandButton = css({
 
 const specialText = css({
   position: 'relative',
-  maxHeight: 100,
+  maxHeight: sectionPreviewHeight || '100',
   overflow: 'hidden',
   transition: 'max-height 1s ease',
   '&.-expanded': {
