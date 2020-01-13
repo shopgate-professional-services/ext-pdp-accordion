@@ -10,7 +10,9 @@ import Description from '../../components/DescriptionOverwrite/Description';
 import ReviewsAndroid from '../../components/ReviewsOverwrite/theme-gmd/Reviews/index';
 import ReviewsIos from '../../components/ReviewsOverwrite/theme-ios11/Reviews/index';
 import { THEME_IOS11 } from '../../constants';
-import config from '../../config';
+import getConfig from '../../helpers/getConfig';
+
+const { allowMultipleOpen } = getConfig();
 
 /**
  * Accordion component
@@ -102,13 +104,9 @@ export class Accordion extends Component {
       reviews,
     } = this.props;
 
-    if (!config) {
-      return null;
-    }
-
     return (
       <div>
-        <AccordionContainer allowMultipleOpen>
+        <AccordionContainer allowMultipleOpen={allowMultipleOpen}>
           {configProperties.map((configProperty) => {
             const itemData =
               this.getItemDataFn(configProperty, description, rating, reviews, productProperties);
