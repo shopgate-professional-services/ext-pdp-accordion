@@ -1,0 +1,114 @@
+{
+  "version": "1.0.0",
+  "id": "@shopgate-project/pdp-accordion",
+  "components": [
+    {
+      "id": "Accordion",
+      "type": "portals",
+      "path": "frontend/portals/Accordion",
+      "target": "product.description.after"
+    },
+    {
+      "id": "DescriptionOverwrite",
+      "type": "portals",
+      "path": "frontend/components/DescriptionOverwrite/index.jsx",
+      "target": "product.description"
+    },
+    {
+      "id": "ReviewsOverwrite",
+      "type": "portals",
+      "path": "frontend/components/ReviewsOverwrite/index.jsx",
+      "target": "product.reviews"
+    },
+    {
+      "type": "translations",
+      "path": "frontend/locale/de-DE.json",
+      "id": "locale/de-DE"
+    },
+    {
+      "type": "translations",
+      "path": "frontend/locale/en-US.json",
+      "id": "locale/en-US"
+    },
+    {
+      "type": "translations",
+      "path": "frontend/locale/fr-FR.json",
+      "id": "locale/fr-FR"
+    }
+  ],
+  "configuration": {
+    "sectionColor": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "text",
+        "label": "Background color of an open section"
+      }
+    },
+    "sectionTextColor": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "text",
+        "label": "Text color of an open section"
+      }
+    },
+    "sectionButtonColor": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "text",
+        "label": "Button color"
+      }
+    },
+    "sectionButtonTextColor": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "text",
+        "label": "Button text color"
+      }
+    },
+    "sectionButtonTextSize": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "text",
+        "label": "Button text size"
+      }
+    },
+    "sectionPreviewHeight": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "text",
+        "label": "Height of Section Preview"
+      }
+    },
+    "allowMultipleOpen": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": true,
+      "params": {
+        "type": "checkbox",
+        "label": "Allow multiple items to be open at same time"
+      }
+    },
+    "accordionItems": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": [],
+      "params": {
+        "type": "json",
+        "label": "accordionItems",
+        "required": true
+      }
+    }
+  }
+}
