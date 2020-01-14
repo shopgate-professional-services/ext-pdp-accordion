@@ -1,5 +1,5 @@
 {
-  "name": "@shopgate-project/ext-pdp-accordion",
+  "name": "@shopgate-project/pdp-accordion",
   "version": "1.0.0",
   "description": "Extension will display product properties, product description, product reviews and static infos in an accordion view.",
   "license": "Apache-2.0",
