@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "id": "@shopgate-project/pdp-accordion",
   "components": [
     {
@@ -19,6 +19,12 @@
       "type": "portals",
       "path": "frontend/components/ReviewsOverwrite/index.jsx",
       "target": "product.reviews"
+    },
+    {
+      "id": "propertiesOverwrite",
+      "type": "portals",
+      "path": "frontend/components/PropertiesOverwrite/index.jsx",
+      "target": "product.properties"
     },
     {
       "type": "translations",
