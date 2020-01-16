@@ -4,7 +4,7 @@ import { themeConfig } from '@shopgate/pwa-common/helpers/config';
 const container = css({
   fontSize: 14,
   marginTop: 8,
-  userSelect: 'all',
+  userSelect: 'none',
 }).toString();
 
 const title = css({
