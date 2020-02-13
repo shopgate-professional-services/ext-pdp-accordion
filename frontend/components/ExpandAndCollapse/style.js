@@ -16,6 +16,9 @@ const expandButton = css({
   },
 }).toString();
 
+const specialTextNoExpand = css({
+}).toString();
+
 const specialText = css({
   position: 'relative',
   maxHeight: sectionPreviewHeight || '100',
@@ -24,8 +27,8 @@ const specialText = css({
   '&.-expanded': {
     maxHeight: '100vh',
   },
-  ':not(.-expanded)::after': {
-    content: '',
+  '&:not(.-expanded):after': {
+    content: ' ',
     position: 'absolute',
     top: 0,
     bottom: 0,
@@ -37,5 +40,6 @@ const specialText = css({
 
 export default {
   expandButton,
+  specialTextNoExpand,
   specialText,
 };

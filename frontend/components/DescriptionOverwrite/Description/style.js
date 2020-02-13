@@ -3,7 +3,7 @@ import { themeConfig } from '@shopgate/pwa-common/helpers/config';
 
 const container = css({
   fontSize: 14,
-  marginTop: 8,
+  marginTop: -15,
   userSelect: 'none',
 }).toString();
 

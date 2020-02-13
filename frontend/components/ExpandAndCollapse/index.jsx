@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import I18n from '@shopgate/pwa-common/components/I18n';
 import styles from './style';
+import getConfig from '../../helpers/getConfig';
+
+const { sectionPreviewHeight } = getConfig();
 
 /**
  * The ExpandAndCollapse component.
@@ -31,10 +34,30 @@ class ExpandAndCollapse extends Component {
    * Helper.
    */
   componentDidMount() {
-    if (this.expandRef.current.clientHeight < 100) {
+    if (this.expandRef.current.clientHeight < parseInt(sectionPreviewHeight, 10)) {
       this.setState({
         showExpandButton: false,
       });
+    }
+  }
+
+  /**
+   * @param {Object} prevProps previous properties
+   * Helper.
+   */
+  componentDidUpdate(prevProps) {
+    if (prevProps.children.props.html !== this.props.children.props.html && this.props.children.props.html !== '') {
+      if (this.expandRef.current.clientHeight < parseInt(sectionPreviewHeight, 10)) {
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({
+          showExpandButton: false,
+        });
+      } else {
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({
+          showExpandButton: true,
+        });
+      }
     }
   }
 
@@ -56,7 +79,7 @@ class ExpandAndCollapse extends Component {
     if (!this.state.showExpandButton) {
       return (
         <div>
-          <div ref={this.expandRef} className={`${styles.specialText} ${this.state.expanded ? '-expanded' : ''}`}>
+          <div ref={this.expandRef} className={styles.specialTextNoExpand}>
             {this.props.children}
           </div>
         </div>
