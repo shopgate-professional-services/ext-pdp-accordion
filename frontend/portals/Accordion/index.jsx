@@ -51,8 +51,8 @@ export class Accordion extends Component {
   /**
    * Handles the click
    *
-   * @param {string} pathname config properties
-   * @param {string} target description
+   * @param {string} pathname pathname
+   * @param {string} target target
    */
   handleClick = (pathname, target) => {
     this.props.historyPush({

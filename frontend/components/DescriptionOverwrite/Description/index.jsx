@@ -18,8 +18,8 @@ const Description = (props) => {
   /**
    * Handles the click
    *
-   * @param {string} pathname config properties
-   * @param {string} target description
+   * @param {string} pathname pathname
+   * @param {string} target target
    */
   const handleClick = (pathname, target) => {
     props.historyPush({
