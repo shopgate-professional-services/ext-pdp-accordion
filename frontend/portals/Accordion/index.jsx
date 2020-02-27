@@ -1,4 +1,4 @@
-import { withCurrentProduct } from '@shopgate/engage/core';
+import { withCurrentProduct, withNavigation } from '@shopgate/engage/core';
 import HtmlSanitizer from '@shopgate/pwa-common/components/HtmlSanitizer';
 import { themeName } from '@shopgate/pwa-common/helpers/config';
 import React, { Component } from 'react';
@@ -19,6 +19,7 @@ const { allowMultipleOpen } = getConfig();
  */
 export class Accordion extends Component {
   static propTypes = {
+    historyPush: PropTypes.func.isRequired,
     configProperties: PropTypes.instanceOf(Object),
     description: PropTypes.string,
     productProperties: PropTypes.instanceOf(Object),
@@ -48,6 +49,19 @@ export class Accordion extends Component {
   }
 
   /**
+   * Handles the click
+   *
+   * @param {string} pathname config properties
+   * @param {string} target description
+   */
+  handleClick = (pathname, target) => {
+    this.props.historyPush({
+      pathname,
+      ...target && { state: { target } },
+    });
+  }
+
+  /**
    * Returns the correct item data depending on the config property type
    *
    * @param {Object} configProperty config properties
@@ -73,7 +87,7 @@ export class Accordion extends Component {
       case 'static': {
         return configProperty.info
           ?
-            <HtmlSanitizer settings={{ value: configProperty.info }}>
+            <HtmlSanitizer settings={{ handleClick: this.handleClick }}>
               {configProperty.info}
             </HtmlSanitizer>
           : null;
@@ -83,7 +97,7 @@ export class Accordion extends Component {
           .find(productProperty => productProperty.label === configProperty.name);
         return productProp
           ?
-            <HtmlSanitizer settings={{ value: productProp.value }}>
+            <HtmlSanitizer settings={{ handleClick: this.handleClick }}>
               {productProp.value}
             </HtmlSanitizer>
           : null;
@@ -144,4 +158,4 @@ export class Accordion extends Component {
   }
 }
 
-export default withCurrentProduct(connect(Accordion));
+export default withNavigation(withCurrentProduct(connect(Accordion)));
