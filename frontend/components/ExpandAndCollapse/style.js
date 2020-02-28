@@ -25,7 +25,7 @@ const specialText = css({
   overflow: 'hidden',
   transition: 'max-height 1s ease',
   '&.-expanded': {
-    maxHeight: '100vh',
+    maxHeight: '10000vh',
   },
   '&:not(.-expanded):after': {
     content: ' ',
