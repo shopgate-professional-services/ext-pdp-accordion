@@ -12,6 +12,7 @@ const {
 
 const container = css({
   backgroundColor: themeConfig.colors.shade8,
+  marginBottom: 28,
 });
 
 const sectionButton = css({
