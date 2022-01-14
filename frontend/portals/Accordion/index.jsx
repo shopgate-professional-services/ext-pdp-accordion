@@ -119,7 +119,7 @@ export class Accordion extends Component {
     } = this.props;
 
     return (
-      <div>
+      <div className="pdp-accordion">
         <AccordionContainer allowMultipleOpen={allowMultipleOpen}>
           {configProperties.map((configProperty) => {
             const itemData =

@@ -72,7 +72,7 @@ class AccordionContainer extends Component {
     } = this;
 
     return (
-      <div className={styles.container}>
+      <div className={`pdp-accordion__container ${styles.container}`}>
         {children.map((child, index) => (
           <AccordionSection
             isOpen={!!openSections[child.props.label]}

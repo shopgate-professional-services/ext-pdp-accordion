@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## [Unreleased]
 
 ### Added
+- Classes for container, section, section header and section content
 - `sectionBorderColor` config parameter to change the color of the section borders
 - `showLastSectionBottomBorder` config parameter to show a border at the bottom of the last section
 - `sectionButtonIcon` config parameter to replace the default section SVG icon (will be turned by 180° in open state by default)

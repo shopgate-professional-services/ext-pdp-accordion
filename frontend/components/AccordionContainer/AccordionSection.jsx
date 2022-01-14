@@ -46,8 +46,12 @@ class AccordionSection extends Component {
     } = this;
 
     return (
-      <div className={showLastSectionBottomBorder && isLast ? styles.sectionBorder : null}>
-        <button onClick={onClick} className={styles.sectionButton} type="button">
+      <div className={`pdp-accordion__container__section ${showLastSectionBottomBorder && isLast ? styles.sectionBorder : ''}`}>
+        <button
+          onClick={onClick}
+          className={`pdp-accordion__container__section__header ${styles.sectionButton}`}
+          type="button"
+        >
           <div className={styles.sectionTitleWrapper}>
             <div className={styles.sectionTitle}>
               {label}
@@ -64,7 +68,7 @@ class AccordionSection extends Component {
           </div>
         </button>
         {isOpen && (
-          <div className={styles.sectionBlock}>
+          <div className={`pdp-accordion__container__section__content ${styles.sectionBlock}`}>
             {this.props.children}
           </div>
         )}
