@@ -73,7 +73,7 @@ class AccordionContainer extends Component {
 
     return (
       <div className={styles.container}>
-        {children.map(child => (
+        {children.map((child, index) => (
           <AccordionSection
             isOpen={!!openSections[child.props.label]}
             key={child.props.label}
@@ -81,6 +81,7 @@ class AccordionContainer extends Component {
             onClick={onClick}
             isRating={child.props.isRating}
             rating={child.props.rating}
+            isLast={index === children.length - 1}
           >
             {child.props.children}
           </AccordionSection>

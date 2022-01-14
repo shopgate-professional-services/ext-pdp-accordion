@@ -4,6 +4,7 @@ import getConfig from '../../helpers/getConfig';
 
 const {
   sectionColor,
+  sectionBorderColor,
   sectionTextColor,
   sectionButtonColor,
   sectionButtonTextColor,
@@ -25,8 +26,14 @@ const sectionButton = css({
   outline: 'none',
   padding: themeConfig.variables.gap.big,
   borderTop: 1,
-  borderColor: 'white',
-  borderStyle: 'solid',
+  borderTopStyle: 'solid',
+  borderTopColor: sectionBorderColor || 'white',
+});
+
+const sectionBorder = css({
+  borderBottom: 1,
+  borderBottomStyle: 'solid',
+  borderBottomColor: sectionBorderColor || 'white',
 });
 
 const sectionBlock = css({
@@ -72,6 +79,7 @@ export default {
   sectionTitle,
   sectionButton,
   sectionBlock,
+  sectionBorder,
   arrow,
   arrowUp,
   arrowDown,

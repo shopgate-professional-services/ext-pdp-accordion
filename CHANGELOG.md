@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added
+- `sectionBorderColor` config parameter to change the color of the section borders
+- `showLastSectionBottomBorder` config parameter to show a border at the bottom of the last section
+- `sectionButtonIcon` config parameter to replace the default section SVG icon (will be turned by 180° in open state by default)
+- `sectionButtonIconOpen` config parameter to add a dedicated SVG icon for the open state of a section
+- `sectionButtonIconFontSize` config parameter to change the font size of the icon
+- `sectionButtonIconColor` config parameter to change the icon color
+
 # [1.2.2] - 2020-06-12
 ### Changed
 - Changed margin bottom to have more space between the extension and the following content.

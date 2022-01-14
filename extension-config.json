@@ -61,6 +61,15 @@
         "label": "Text color of an open section"
       }
     },
+    "sectionBorderColor": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "text",
+        "label": "Section border color"
+      }
+    },
     "sectionButtonColor": {
       "type": "admin",
       "destination": "frontend",
@@ -114,6 +123,51 @@
         "type": "json",
         "label": "accordionItems",
         "required": true
+      }
+    },
+    "sectionButtonIcon": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "text",
+        "label": "SVG icon replacement for the button icon (will be flipped by 180° when accordion is open)"
+      }
+    },
+    "sectionButtonIconOpen": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "text",
+        "label": "SVG icon replacement for the button icon in the open state of the accordion. (Must be combined with 'buttonIcon' which will represent the closed state)"
+      }
+    },
+    "sectionButtonIconFontSize": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "text",
+        "label": "Font size for the SVG icon eg. 24px"
+      }
+    },
+    "sectionButtonIconColor": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "text",
+        "label": "Font color for the SVG icon"
+      }
+    },
+    "showLastSectionBottomBorder": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": false,
+      "params": {
+        "type": "checkbox",
+        "label": "Wether the last accordion is rendered with a border at the bottom"
       }
     }
   }
