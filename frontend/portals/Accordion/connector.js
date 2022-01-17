@@ -16,8 +16,9 @@ export const prepareProperties = (accordionItems, state, ownProps) => {
   const productProperties = getProductProperties(state, {
     productId: ownProps.productId,
   }) || [];
+
   return accordionItems
-    .filter(property => (['reviews', 'description', 'static'].indexOf(property.type) > -1) ||
+    .filter(property => (['reviews', 'description', 'static', 'properties'].indexOf(property.type) > -1) ||
         (property.type === 'property' &&
           productProperties.some(productProperty => productProperty.label === property.name)))
     .sort((firstProperty, secondProperty) => firstProperty.sortOrder - secondProperty.sortOrder);

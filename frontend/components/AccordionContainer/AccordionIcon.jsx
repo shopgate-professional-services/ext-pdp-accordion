@@ -19,40 +19,36 @@ const {
  */
 const AccordionIcon = ({ isOpen }) => {
   const IconClosed = useCallback(() => (
-    <span>
+    <span style={{ color: sectionButtonIconColor }}>
       { sectionButtonIcon ? (
         <Icon
           content={sectionButtonIcon}
           // Apply the default class when only one icon replacement is provided with config
           className={!sectionButtonIconOpen ? styles.arrowDown : null}
           size={sectionButtonIconFontSize}
-          color={sectionButtonIconColor}
         />
       ) : (
         <ArrowIcon
           className={styles.arrowDown}
           size={sectionButtonIconFontSize}
-          color={sectionButtonIconColor}
         />
       )}
     </span>
   ), []);
 
   const IconOpen = useCallback(() => (
-    <span>
+    <span style={{ color: sectionButtonIconColor }}>
       { sectionButtonIconOpen || sectionButtonIcon ? (
         <Icon
           content={sectionButtonIconOpen || sectionButtonIcon}
           // Apply the default class when only one icon replacement is provided with config
           className={!sectionButtonIconOpen ? styles.arrowUp : null}
           size={sectionButtonIconFontSize}
-          color={sectionButtonIconColor}
         />
       ) : (
         <ArrowIcon
           className={styles.arrowUp}
           size={sectionButtonIconFontSize}
-          color={sectionButtonIconColor}
         />
       ) }
     </span>

@@ -1,6 +1,6 @@
 import React from 'react';
-import HtmlSanitizer from '@shopgate/pwa-common/components/HtmlSanitizer';
 import PropTypes from 'prop-types';
+import HTMLContent from '../../HTMLContent';
 import styles from './style';
 
 /**
@@ -9,20 +9,20 @@ import styles from './style';
  * @param {Object} props The component props.
  * @returns {JSX|null}
  */
-const Properties = ({ properties }) => {
+const Properties = ({ properties, isAccordion }) => {
   if (!properties || properties.length === 0) {
     return null;
   }
 
   return (
-    <div className={styles.content}>
+    <div className={`${styles.content} ${isAccordion ? styles.contentAccordion : ''}`}>
       <table className={styles.table}>
         <tbody>
           {properties.map(({ label, value }) => (
             <tr key={label}>
               <td className={styles.cell}>{label}</td>
               <td className={styles.cell} data-test-id={`property: ${value}`}>
-                <HtmlSanitizer settings={{ value }}>{value}</HtmlSanitizer>
+                <HTMLContent>{value}</HTMLContent>
               </td>
             </tr>
           ))}
@@ -33,11 +33,13 @@ const Properties = ({ properties }) => {
 };
 
 Properties.propTypes = {
+  isAccordion: PropTypes.bool,
   properties: PropTypes.arrayOf(PropTypes.shape()),
 };
 
 Properties.defaultProps = {
   properties: null,
+  isAccordion: false,
 };
 
 export default Properties;

@@ -42,7 +42,7 @@ const sectionBlock = css({
   fontSize: 14,
   lineHeight: 1.7,
   wordBeak: 'break-word',
-  padding: `12px ${themeConfig.variables.gap.big}px 12px ${themeConfig.variables.gap.big}px`,
+  padding: `0 ${themeConfig.variables.gap.big}px 12px ${themeConfig.variables.gap.big}px`,
 });
 
 const arrow = css({
@@ -71,6 +71,7 @@ const sectionTitle = css({
   flex: '1 1 auto',
   display: 'flex',
   alignItems: 'center',
+  paddingRight: 8,
 });
 
 export default {

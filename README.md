@@ -8,26 +8,32 @@ Extension will display product properties, product description, product reviews 
 ## Config
 
 - `accordionItems`: Object of accordion items.
+- `sectionBorderColor`: The (upper) border color of a section.
+- `showLastSectionBottomBorder`: Wether the last section has a border at to bottom.
 - `sectionColor`: The background color of an open section.
 - `sectionTextColor`: The text color of an open section.
 - `sectionButtonColor`: The button color.
 - `sectionButtonTextColor`: The color of the button text.
 - `sectionButtonTextSize`: The size of the button text.
 - `sectionPreviewHeight`: The height of the section preview in pixel.
-- `allowMultipleOpen`: true or false to configurate if more than one accordion section can be open.
+- `allowMultipleOpen`: true or false to configure if more than one accordion section can be open.
+- `sectionButtonIcon`: An SVG icon replacement for the default section icon (will be tuned by 180° in open state).
+- `sectionButtonIconOpen`: An SVG icon for the open state of a section. `sectionButtonIcon` will be used for the closed state.
+- `sectionButtonIconFontSize`: Font size of the icon.
+- `sectionButtonIconColor`: Color of the icon.
 
 ### Params for accordionItems
 
 - `type`: Define a type. Possible parameters are description, reviews, property and static
-  - `description`: Replaces the product description and shows it as an accordion section. Pleace define only once.
-  - `reviews`: Replaces the product reviews and shows them as an accordion section. Pleace define only once.
-  - `property`: Shows a product property as an accordion section. Use the "name" parameter to select the property. Pleae define one per property.
+  - `description`: Replaces the product description and shows it as an accordion section. Please define only once.
+  - `reviews`: Replaces the product reviews and shows them as an accordion section. Please define only once.
+  - `property`: Shows a product property as an accordion section. Use the "name" parameter to select the property. Please define one per property.
   - `static`: Shows a static info as an accordion section
 - `name`: Will be shown as the headline of the accordion section.
   - For properties enter the name of the property here.
 - `headline`: Define a custom headline for the accordion section.
   - Is optional
-- `isActive`: Define if an acordion section is opened or closed.
+- `isActive`: Define if an accordion section is opened or closed.
   - Can be true or false
 - `preview`: The accordion section will be shown as a preview with a show more / show less button
   - Is optional (default false)
@@ -69,6 +75,12 @@ Please orient on the following example configuration for accordion Items.
       "preview": true,
       "isActive": true,
       "sortOrder": 3
+    },
+    {
+      "type": "properties",
+      "name": "Properties",
+      "isActive": false,
+      "sortOrder": 5
     }
   ]
 ```

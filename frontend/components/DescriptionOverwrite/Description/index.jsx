@@ -1,8 +1,7 @@
-import { withNavigation } from '@shopgate/engage/core';
 import React from 'react';
 import PropTypes from 'prop-types';
-import HtmlSanitizer from '@shopgate/pwa-common/components/HtmlSanitizer';
 import PlaceholderParagraph from '@shopgate/pwa-ui-shared/PlaceholderParagraph';
+import HTMLContent from '../../HTMLContent';
 import styles from './style';
 
 /**
@@ -15,34 +14,18 @@ const Description = (props) => {
     return null;
   }
 
-  /**
-   * Handles the click
-   *
-   * @param {string} pathname pathname
-   * @param {string} target target
-   */
-  const handleClick = (pathname, target) => {
-    props.historyPush({
-      pathname,
-      ...target && { state: { target } },
-    });
-  };
-
   return (
     <div className={styles.container}>
       <PlaceholderParagraph className={styles.placeholder} ready={!!props.html}>
-        <div className={styles.content} data-test-id={props.html}>
-          <HtmlSanitizer settings={{ handleClick }}>
-            {props.html}
-          </HtmlSanitizer>
-        </div>
+        <HTMLContent>
+          {props.html}
+        </HTMLContent>
       </PlaceholderParagraph>
     </div>
   );
 };
 
 Description.propTypes = {
-  historyPush: PropTypes.func.isRequired,
   html: PropTypes.string,
 };
 
@@ -50,4 +33,4 @@ Description.defaultProps = {
   html: null,
 };
 
-export default withNavigation(Description);
+export default Description;

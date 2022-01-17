@@ -15,12 +15,13 @@ const mapStateToProps = (state, ownProps) => {
   }) || [];
 
   return {
-    properties: productProperties.filter((productProperty) => {
-      return !config.accordionItems.some(property => property.name === productProperty.label);
-    }).map(productProperty => ({
-      label: String(productProperty.label),
-      value: String(productProperty.value),
-    })),
+    properties: productProperties
+      .filter(productProperty => !config.accordionItems
+        .some(property => property.name === productProperty.label))
+      .map(productProperty => ({
+        label: String(productProperty.label),
+        value: String(productProperty.value),
+      })),
   };
 };
 

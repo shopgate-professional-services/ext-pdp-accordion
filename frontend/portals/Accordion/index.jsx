@@ -1,5 +1,4 @@
-import { withCurrentProduct, withNavigation } from '@shopgate/engage/core';
-import HtmlSanitizer from '@shopgate/pwa-common/components/HtmlSanitizer';
+import { withCurrentProduct } from '@shopgate/engage/core';
 import { themeName } from '@shopgate/pwa-common/helpers/config';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -7,10 +6,12 @@ import connect from './connector';
 import AccordionContainer from '../../components/AccordionContainer';
 import ExpandAndCollapse from '../../components/ExpandAndCollapse';
 import Description from '../../components/DescriptionOverwrite/Description';
+import Properties from '../../components/PropertiesOverwrite';
 import ReviewsAndroid from '../../components/ReviewsOverwrite/theme-gmd/Reviews/index';
 import ReviewsIos from '../../components/ReviewsOverwrite/theme-ios11/Reviews/index';
 import { THEME_IOS11 } from '../../constants';
 import getConfig from '../../helpers/getConfig';
+import HTMLContent from '../../components/HTMLContent';
 
 const { allowMultipleOpen } = getConfig();
 
@@ -19,7 +20,6 @@ const { allowMultipleOpen } = getConfig();
  */
 export class Accordion extends Component {
   static propTypes = {
-    historyPush: PropTypes.func.isRequired,
     configProperties: PropTypes.instanceOf(Object),
     description: PropTypes.string,
     productProperties: PropTypes.instanceOf(Object),
@@ -45,20 +45,8 @@ export class Accordion extends Component {
     this.components = {
       Description,
       Reviews: themeName.includes(THEME_IOS11) ? ReviewsIos : ReviewsAndroid,
+      Properties,
     };
-  }
-
-  /**
-   * Handles the click
-   *
-   * @param {string} pathname pathname
-   * @param {string} target target
-   */
-  handleClick = (pathname, target) => {
-    this.props.historyPush({
-      pathname,
-      ...target && { state: { target } },
-    });
   }
 
   /**
@@ -87,19 +75,22 @@ export class Accordion extends Component {
       case 'static': {
         return configProperty.info
           ?
-            <HtmlSanitizer settings={{ handleClick: this.handleClick }}>
+            <HTMLContent>
               {configProperty.info}
-            </HtmlSanitizer>
+            </HTMLContent>
           : null;
+      }
+      case 'properties': {
+        return <Properties isAccordion />;
       }
       default: {
         const productProp = productProperties
           .find(productProperty => productProperty.label === configProperty.name);
         return productProp
           ?
-            <HtmlSanitizer settings={{ handleClick: this.handleClick }}>
+            <HTMLContent>
               {productProp.value}
-            </HtmlSanitizer>
+            </HTMLContent>
           : null;
       }
     }
@@ -158,4 +149,4 @@ export class Accordion extends Component {
   }
 }
 
-export default withNavigation(withCurrentProduct(connect(Accordion)));
+export default withCurrentProduct(connect(Accordion));
