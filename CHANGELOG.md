@@ -5,7 +5,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-
+### Fixed
+- Empty sections are not rendered anymore
 ### Added
 - Classes for container, section, section header and section content
 - New accordion item type `properties` to move the whole properties section into an accordion

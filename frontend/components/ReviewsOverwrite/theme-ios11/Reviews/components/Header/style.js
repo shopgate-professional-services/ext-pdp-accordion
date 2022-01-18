@@ -35,8 +35,8 @@ const noReviews = css({
   justifyContent: 'space-between',
   flexDirection: 'column',
   alignItems: 'center',
-  marginTop: themeConfig.variables.gap.small,
   padding: `0 ${themeConfig.variables.gap.small}px`,
+  paddingTop: themeConfig.variables.gap.small,
   textAlign: 'center',
 }).toString();
 

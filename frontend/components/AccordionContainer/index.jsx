@@ -28,6 +28,8 @@ class AccordionContainer extends Component {
     const openSections = {};
 
     this.props.children.forEach((child) => {
+      if (!child) { return; }
+
       if (child.props.isOpen) {
         openSections[child.props.label] = true;
       }
@@ -73,19 +75,23 @@ class AccordionContainer extends Component {
 
     return (
       <div className={`pdp-accordion__container ${styles.container}`}>
-        {children.map((child, index) => (
-          <AccordionSection
-            isOpen={!!openSections[child.props.label]}
-            key={child.props.label}
-            label={child.props.label}
-            onClick={onClick}
-            isRating={child.props.isRating}
-            rating={child.props.rating}
-            isLast={index === children.length - 1}
-          >
-            {child.props.children}
-          </AccordionSection>
-        ))}
+        {children.map((child, index) => {
+          if (!child) { return null; }
+
+          return (
+            <AccordionSection
+              isOpen={!!openSections[child.props.label]}
+              key={child.props.label}
+              label={child.props.label}
+              onClick={onClick}
+              isRating={child.props.isRating}
+              rating={child.props.rating}
+              isLast={index === children.length - 1}
+            >
+              {child.props.children}
+            </AccordionSection>
+          );
+        })}
       </div>
     );
   }

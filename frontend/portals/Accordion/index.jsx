@@ -22,6 +22,7 @@ export class Accordion extends Component {
   static propTypes = {
     configProperties: PropTypes.instanceOf(Object),
     description: PropTypes.string,
+    filteredProductProperties: PropTypes.arrayOf(PropTypes.shape()),
     productProperties: PropTypes.instanceOf(Object),
     rating: PropTypes.instanceOf(Object),
     reviews: PropTypes.arrayOf(PropTypes.array),
@@ -31,6 +32,7 @@ export class Accordion extends Component {
     configProperties: {},
     description: '',
     productProperties: {},
+    filteredProductProperties: [],
     rating: {},
     reviews: [],
   }
@@ -81,7 +83,9 @@ export class Accordion extends Component {
           : null;
       }
       case 'properties': {
-        return <Properties isAccordion />;
+        return this.props.filteredProductProperties.length
+          ? <Properties isAccordion />
+          : null;
       }
       default: {
         const productProp = productProperties
@@ -118,6 +122,10 @@ export class Accordion extends Component {
             const { name, headline, preview } = configProperty;
             const isOpen = configProperty.isActive;
             const isRating = configProperty.type === 'reviews';
+
+            if (!itemData) {
+              return null;
+            }
 
             return (
               <div
