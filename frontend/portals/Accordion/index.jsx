@@ -64,7 +64,7 @@ export class Accordion extends Component {
   getItemData(configProperty, description, rating, reviews, productProperties) {
     switch (configProperty.type) {
       case 'description': {
-        return this.components.Description
+        return this.components.Description && description
           ? <Description html={description} />
           : null;
       }
