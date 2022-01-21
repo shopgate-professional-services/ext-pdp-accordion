@@ -12,6 +12,7 @@ import ReviewsIos from '../../components/ReviewsOverwrite/theme-ios11/Reviews/in
 import { THEME_IOS11 } from '../../constants';
 import getConfig from '../../helpers/getConfig';
 import HTMLContent from '../../components/HTMLContent';
+import { container } from './styles';
 
 const { allowMultipleOpen } = getConfig();
 
@@ -114,7 +115,7 @@ export class Accordion extends Component {
     } = this.props;
 
     return (
-      <div className="pdp-accordion">
+      <div className={`pdp-accordion ${container}`}>
         <AccordionContainer allowMultipleOpen={allowMultipleOpen}>
           {configProperties.map((configProperty) => {
             const itemData =

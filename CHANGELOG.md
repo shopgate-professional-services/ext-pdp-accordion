@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - `sectionButtonIconFontSize` config parameter to change the font size of the icon
 - `sectionButtonIconColor` config parameter to change the icon color
 - `animated` config parameter activate animated accordions
+- added bottom padding to the accordion container
 
 # [1.2.2] - 2020-06-12
 ### Changed
