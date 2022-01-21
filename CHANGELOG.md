@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - `sectionButtonIconOpen` config parameter to add a dedicated SVG icon for the open state of a section
 - `sectionButtonIconFontSize` config parameter to change the font size of the icon
 - `sectionButtonIconColor` config parameter to change the icon color
+- `animated` config parameter activate animated accordions
 
 # [1.2.2] - 2020-06-12
 ### Changed

@@ -21,6 +21,7 @@ Extension will display product properties, product description, product reviews 
 - `sectionButtonIconOpen`: An SVG icon for the open state of a section. `sectionButtonIcon` will be used for the closed state.
 - `sectionButtonIconFontSize`: Font size of the icon.
 - `sectionButtonIconColor`: Color of the icon.
+- `animated`: Wether the accordions are animated.
 
 ### Params for accordionItems
 

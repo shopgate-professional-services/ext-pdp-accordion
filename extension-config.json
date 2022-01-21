@@ -1,5 +1,5 @@
 {
-  "version": "1.3.0-beta.2",
+  "version": "1.3.0-beta.3",
   "id": "@shopgate-project/pdp-accordion",
   "components": [
     {
@@ -113,6 +113,15 @@
       "params": {
         "type": "checkbox",
         "label": "Allow multiple items to be open at same time"
+      }
+    },
+    "animate": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": false,
+      "params": {
+        "type": "checkbox",
+        "label": "Wether the accordions are animated"
       }
     },
     "accordionItems": {

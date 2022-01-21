@@ -9,7 +9,10 @@ const {
   sectionButtonColor,
   sectionButtonTextColor,
   sectionButtonTextSize,
+  animate,
 } = getConfig();
+
+const animationDuration = 250;
 
 const container = css({
   backgroundColor: themeConfig.colors.shade8,
@@ -45,6 +48,21 @@ const sectionBlock = css({
   padding: `0 ${themeConfig.variables.gap.big}px 12px ${themeConfig.variables.gap.big}px`,
 });
 
+const transitionBlock = css({
+  ...(animate ? {
+    transition: `max-height ${animationDuration}ms cubic-bezier(0, 1, 0, 1)`,
+  } : null),
+  maxHeight: 0,
+  overflow: 'hidden',
+}).toString();
+
+const transitionBlockOpen = css({
+  ...(animate ? {
+    transition: `max-height ${animationDuration * 2}ms ease-in-out !important`,
+  } : null),
+  maxHeight: '100vh !important',
+}).toString();
+
 const arrow = css({
   flex: '0 0 auto',
 });
@@ -79,6 +97,8 @@ export default {
   sectionTitleWrapper,
   sectionTitle,
   sectionButton,
+  transitionBlock,
+  transitionBlockOpen,
   sectionBlock,
   sectionBorder,
   arrow,

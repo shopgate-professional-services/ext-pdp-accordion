@@ -53,7 +53,7 @@ class AccordionSection extends Component {
           type="button"
         >
           <div className={styles.sectionTitleWrapper}>
-            <div className={styles.sectionTitle}>
+            <div className={`${styles.sectionTitle} accordion__container__section__header__title`}>
               {label}
             </div>
             {isRating &&
@@ -67,11 +67,11 @@ class AccordionSection extends Component {
             <AccordionIcon isOpen={isOpen} />
           </div>
         </button>
-        {isOpen && (
-          <div className={`pdp-accordion__container__section__content ${styles.sectionBlock}`}>
+        <div className={`pdp-accordion__container__section__content ${styles.transitionBlock} ${isOpen ? styles.transitionBlockOpen : null}`}>
+          <div className={styles.sectionBlock}>
             {this.props.children}
           </div>
-        )}
+        </div>
       </div>
     );
   }
