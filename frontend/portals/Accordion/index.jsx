@@ -1,5 +1,5 @@
 import { withCurrentProduct } from '@shopgate/engage/core';
-import { themeName } from '@shopgate/pwa-common/helpers/config';
+import appConfig, { themeName } from '@shopgate/pwa-common/helpers/config';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import connect from './connector';
@@ -71,7 +71,8 @@ export class Accordion extends Component {
       }
       case 'reviews': {
         const { Reviews } = this.components;
-        return Reviews
+
+        return Reviews && (reviews.length || appConfig.showWriteReview)
           ? <Reviews rating={rating} reviews={reviews} />
           : null;
       }

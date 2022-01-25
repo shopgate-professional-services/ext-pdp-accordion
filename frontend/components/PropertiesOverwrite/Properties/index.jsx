@@ -19,7 +19,7 @@ const Properties = ({ properties, isAccordion }) => {
       <table className={styles.table}>
         <tbody>
           {properties.map(({ label, value }) => (
-            <tr key={label}>
+            <tr key={`${label}_${value}`}>
               <td className={styles.cell}>{label}</td>
               <td className={styles.cell} data-test-id={`property: ${value}`}>
                 <HTMLContent>{value}</HTMLContent>

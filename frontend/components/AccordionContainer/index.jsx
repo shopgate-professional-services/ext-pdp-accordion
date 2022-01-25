@@ -86,7 +86,7 @@ class AccordionContainer extends Component {
               onClick={onClick}
               isRating={child.props.isRating}
               rating={child.props.rating}
-              isLast={index === children.length - 1}
+              isLast={index === children.filter(Boolean).length - 1}
             >
               {child.props.children}
             </AccordionSection>
