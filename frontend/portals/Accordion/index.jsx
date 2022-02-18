@@ -125,10 +125,6 @@ export class Accordion extends Component {
             const isOpen = configProperty.isActive;
             const isRating = configProperty.type === 'reviews';
 
-            if (!itemData) {
-              return null;
-            }
-
             return (
               <div
                 label={headline || name}
