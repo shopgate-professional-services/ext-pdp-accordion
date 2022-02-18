@@ -12,7 +12,7 @@ const {
   animate,
 } = getConfig();
 
-const animationDuration = 250;
+const animationDuration = 500;
 
 const container = css({
   backgroundColor: themeConfig.colors.shade8,
@@ -60,7 +60,7 @@ const transitionBlockOpen = css({
   ...(animate ? {
     transition: `max-height ${animationDuration * 2}ms ease-in-out !important`,
   } : null),
-  maxHeight: '100vh !important',
+  maxHeight: '1000vh !important',
 }).toString();
 
 const arrow = css({
