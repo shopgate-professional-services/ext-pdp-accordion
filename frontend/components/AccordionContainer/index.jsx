@@ -76,7 +76,7 @@ class AccordionContainer extends Component {
     return (
       <div className={`pdp-accordion__container ${styles.container}`}>
         {children.map((child, index) => {
-          if (!child) { return null; }
+          if (!child || (child.props && !child.props.children)) { return null; }
 
           return (
             <AccordionSection
