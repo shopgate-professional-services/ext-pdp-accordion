@@ -45,7 +45,7 @@ const sectionBlock = css({
   fontSize: 14,
   lineHeight: 1.7,
   wordBeak: 'break-word',
-  padding: `0 ${themeConfig.variables.gap.big}px 12px ${themeConfig.variables.gap.big}px`,
+  padding: `${themeConfig.variables.gap.big}px`,
 });
 
 const transitionBlock = css({

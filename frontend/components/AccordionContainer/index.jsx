@@ -1,104 +1,163 @@
-import React, { Component } from 'react';
+import React, {
+  useCallback, useState, useEffect, Fragment,
+} from 'react';
 import PropTypes from 'prop-types';
+import appConfig, { themeName } from '@shopgate/pwa-common/helpers/config';
+import { withCurrentProduct } from '@shopgate/engage/core';
+import { THEME_IOS11 } from '../../constants';
+import getConfig from '../../helpers/getConfig';
+import ExpandAndCollapse from '../ExpandAndCollapse';
+import Description from '../DescriptionOverwrite/Description';
+import Properties from '../PropertiesOverwrite';
+import ReviewsAndroid from '../ReviewsOverwrite/theme-gmd/Reviews/index';
+import ReviewsIos from '../ReviewsOverwrite/theme-ios11/Reviews/index';
 import AccordionSection from './AccordionSection';
-
+import HTMLContent from '../HTMLContent';
+import connect from './connector';
 import styles from './style';
 
+const { allowMultipleOpen } = getConfig();
+
 /**
- * Accordion Component
- * @param {string} label AccordionSection label
+ * The Accordion component
+ * @param {Object} props The component props
+ * @returns {JSX}
  */
-class AccordionContainer extends Component {
-  static propTypes = {
-    allowMultipleOpen: PropTypes.bool,
-    children: PropTypes.instanceOf(Object),
-  };
+const Accordion = ({
+  configProperties,
+  description,
+  productProperties,
+  filteredProductProperties,
+  rating,
+  reviews,
+}) => {
+  const [activeSections, setActiveSections] = useState(null);
 
-  static defaultProps = {
-    children: null,
-  };
+  useEffect(() => {
+    // Initialize the section state with the configuration settings
+    setActiveSections(configProperties.reduce((acc, { isActive, headline, name }) => ({
+      ...acc,
+      [headline || name]: isActive || false,
+    }), {}));
+  }, [configProperties]);
 
-  /**
-   * Constructor.
-   * @param {Object} props The component props.
-   */
-  constructor(props) {
-    super(props);
+  const getSectionContent = useCallback((
+    configProperty
+  ) => {
+    switch (configProperty.type) {
+      case 'description': {
+        return description
+          ? (<Description html={description} />)
+          : null;
+      }
+      case 'reviews': {
+        const Reviews = themeName.includes(THEME_IOS11) ? ReviewsIos : ReviewsAndroid;
 
-    const openSections = {};
+        return (appConfig.hasReviews && (reviews.length || appConfig.showWriteReview))
+          ? <Reviews rating={rating} reviews={reviews} />
+          : null;
+      }
+      case 'static': {
+        return configProperty.info
+          ?
+            <HTMLContent>
+              {configProperty.info}
+            </HTMLContent>
+          : null;
+      }
+      case 'properties': {
+        return filteredProductProperties.length
+          ? <Properties isAccordion />
+          : null;
+      }
+      default: {
+        const productProp = productProperties
+          .find(productProperty => productProperty.label === configProperty.name);
+        return productProp
+          ?
+            <HTMLContent>
+              {productProp.value}
+            </HTMLContent>
+          : null;
+      }
+    }
+  }, [description, filteredProductProperties.length, productProperties, rating, reviews]);
 
-    this.props.children.forEach((child) => {
-      if (!child) { return; }
+  const handleClick = useCallback((label) => {
+    const isActive = !!activeSections[label];
+    const update = {};
 
-      if (child.props.isOpen) {
-        openSections[child.props.label] = true;
+    Object.entries(activeSections).forEach(([key, value]) => {
+      const isSection = key === label;
+
+      if (allowMultipleOpen) {
+        update[key] = isSection ? !isActive : value;
+      } else {
+        update[key] = isSection ? !isActive : false;
       }
     });
 
-    this.state = { openSections };
+    setActiveSections(update);
+  }, [activeSections]);
+
+  if (!activeSections) {
+    return null;
   }
 
-  onClick = (label) => {
-    const {
-      props: { allowMultipleOpen },
-      state: { openSections },
-    } = this;
+  return (
+    <div className={`pdp-accordion__container ${styles.container}`}>
+      { configProperties.map((configProperty, index) => {
+        const { name, headline, preview } = configProperty;
+        const label = headline || name;
+        const isRating = configProperty.type === 'reviews';
+        const sectionContent = getSectionContent(configProperty);
+        // configProperties might have updated, but activeSections haven't yet
+        if (!sectionContent || typeof activeSections[label] === 'undefined') {
+          return null;
+        }
 
-    const isOpen = !!openSections[label];
-
-    if (allowMultipleOpen) {
-      this.setState({
-        openSections: {
-          ...openSections,
-          [label]: !isOpen,
-        },
-      });
-    } else {
-      this.setState({
-        openSections: {
-          [label]: !isOpen,
-        },
-      });
-    }
-  };
-
-  /**
-   * Renders Accordion
-   * @returns {JSX}
-   */
-  render() {
-    const {
-      onClick,
-      props: { children },
-      state: { openSections },
-    } = this;
-
-    return (
-      <div className={`pdp-accordion__container ${styles.container}`}>
-        {children.map((child, index) => {
-          if (!child || (child.props && !child.props.children)) { return null; }
-
-          return (
-            <AccordionSection
-              isOpen={!!openSections[child.props.label]}
-              key={child.props.label}
-              label={child.props.label}
-              onClick={onClick}
-              isRating={child.props.isRating}
-              rating={child.props.rating}
-              isLast={index === children.filter(Boolean).length - 1}
-            >
-              {child.props.children}
-            </AccordionSection>
-          );
-        })}
-      </div>
-    );
-  }
-}
-
-AccordionContainer.defaultProps = {
-  allowMultipleOpen: false,
+        return (
+          <AccordionSection
+            key={name}
+            isOpen={activeSections[label]}
+            label={label}
+            isRating={isRating}
+            rating={rating}
+            isLast={index === configProperties.length - 1}
+            onClick={handleClick}
+          >
+            { preview && !isRating ? (
+              <ExpandAndCollapse>
+                { sectionContent }
+              </ExpandAndCollapse>
+            ) : (
+              <Fragment>
+                { sectionContent }
+              </Fragment>
+            )}
+          </AccordionSection>
+        );
+      })}
+    </div>
+  );
 };
 
-export default AccordionContainer;
+Accordion.propTypes = {
+  configProperties: PropTypes.arrayOf(PropTypes.shape()),
+  description: PropTypes.string,
+  filteredProductProperties: PropTypes.arrayOf(PropTypes.shape()),
+  productProperties: PropTypes.arrayOf(PropTypes.shape()),
+  rating: PropTypes.shape(),
+  reviews: PropTypes.arrayOf(PropTypes.shape()),
+};
+
+Accordion.defaultProps = {
+  configProperties: [],
+  description: '',
+  productProperties: [],
+  filteredProductProperties: [],
+  rating: null,
+  reviews: [],
+};
+
+export default withCurrentProduct(connect(Accordion));
