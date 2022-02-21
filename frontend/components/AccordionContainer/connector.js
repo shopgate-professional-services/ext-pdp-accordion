@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getProductReviews } from '@shopgate/pwa-common-commerce/reviews/selectors';
+import { getProductReviewsExcerpt } from '@shopgate/pwa-common-commerce/reviews/selectors';
 import { getProductDescription, getProductProperties, getProductRating } from '@shopgate/pwa-common-commerce/product/selectors/product';
 import { getFilteredProductProperties } from '../../selectors';
 import config from '../../config';
@@ -48,7 +48,7 @@ const mapStateToProps = (state, ownProps) => ({
     { productId: ownProps.productId }
   ) || [],
   rating: getProductRating(state, { productId: ownProps.productId }) || {},
-  reviews: getProductReviews(state, { productId: ownProps.productId }) || [],
+  reviews: getProductReviewsExcerpt(state, { productId: ownProps.productId }) || [],
 });
 
 export default connect(mapStateToProps);
