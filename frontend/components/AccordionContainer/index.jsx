@@ -32,15 +32,23 @@ const Accordion = ({
   reviews,
 }) => {
   const [activeSections, setActiveSections] = useState(null);
-
   useEffect(() => {
-    // Initialize the section state with the configuration settings
-    setActiveSections(configProperties.reduce((acc, { isActive, headline, name }) => ({
+    if (activeSections !== null) {
+      return;
+    }
+
+    const sections = configProperties.reduce((acc, { isActive, headline, name }) => ({
       ...acc,
       [headline || name]: isActive || false,
-    }), {}));
-  }, [configProperties]);
+    }), {});
 
+    if (!Object.keys(sections).length) {
+      return;
+    }
+
+    // Initialize the section state with the configuration settings
+    setActiveSections(sections);
+  }, [activeSections, configProperties]);
   const getSectionContent = useCallback((
     configProperty
   ) => {
