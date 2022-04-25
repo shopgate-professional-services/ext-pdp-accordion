@@ -32,11 +32,8 @@ const Accordion = ({
   reviews,
 }) => {
   const [activeSections, setActiveSections] = useState(null);
-  useEffect(() => {
-    if (activeSections !== null) {
-      return;
-    }
 
+  useEffect(() => {
     const sections = configProperties.reduce((acc, { isActive, headline, name }) => ({
       ...acc,
       [headline || name]: isActive || false,
@@ -46,9 +43,32 @@ const Accordion = ({
       return;
     }
 
-    // Initialize the section state with the configuration settings
-    setActiveSections(sections);
+    setActiveSections((prevActiveSections) => {
+      if (prevActiveSections === null) {
+        // Active sections where not set before -> update with sections
+        return sections;
+      }
+
+      if (Object.keys(prevActiveSections).length === Object.keys(sections).length) {
+        // No new sections came in with the last configProperties update -> no activeSections update
+        return prevActiveSections;
+      }
+
+      // Number of sections changed with the last config update -> regenerate activeSections
+      return Object.keys(sections).reduce((acc, currentKey) => {
+        if (prevActiveSections.hasOwnProperty(currentKey)) {
+          // Current key was already present within the old activeSections -> use old value
+          acc[currentKey] = activeSections[currentKey];
+        } else {
+          // Current key is new -> add new value
+          acc[currentKey] = sections[currentKey];
+        }
+
+        return acc;
+      }, {});
+    });
   }, [activeSections, configProperties]);
+
   const getSectionContent = useCallback((
     configProperty
   ) => {
