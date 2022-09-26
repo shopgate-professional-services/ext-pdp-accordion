@@ -127,21 +127,7 @@
     "accordionItems": {
       "type": "admin",
       "destination": "frontend",
-      "default": [
-        {
-          "type": "description",
-          "name": "Beschreibung",
-          "isActive": false,
-          "sortOrder": 1
-        },
-        {
-          "type": "properties",
-          "name": "Property",
-          "isActive": false,
-          "sortOrder": 2,
-          "headline": "Artikelmerkmale"
-        }
-      ],
+      "default": [],
       "params": {
         "type": "json",
         "label": "accordionItems",
