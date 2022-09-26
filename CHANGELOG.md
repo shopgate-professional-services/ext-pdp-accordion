@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.4.0] - 2022-09-26
+### Added
+- Human readable class to address properties section
+### Fixed
+- Fixed selector logic to work with child products
+
 ## [1.3.0] - 2022-04-07
 ### Fixed
 - Empty sections are not rendered anymore

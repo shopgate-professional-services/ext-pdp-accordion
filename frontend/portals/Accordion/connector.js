@@ -41,12 +41,9 @@ export const prepareProperties = (accordionItems, state, ownProps) => {
   */
 const mapStateToProps = (state, ownProps) => ({
   configProperties: prepareProperties(config.accordionItems, state, ownProps),
-  description: getProductDescription(state, { productId: ownProps.productId }) || '',
-  productProperties: getProductProperties(state, { productId: ownProps.productId }) || [],
-  filteredProductProperties: getFilteredProductProperties(
-    state,
-    { productId: ownProps.productId }
-  ) || [],
+  description: getProductDescription(state, ownProps) || '',
+  productProperties: getProductProperties(state, ownProps) || [],
+  filteredProductProperties: getFilteredProductProperties(state, ownProps) || [],
   rating: getProductRating(state, { productId: ownProps.productId }) || {},
   reviews: getProductReviews(state, { productId: ownProps.productId }) || [],
 });

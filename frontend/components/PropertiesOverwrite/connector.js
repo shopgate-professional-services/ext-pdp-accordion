@@ -9,9 +9,7 @@ import { getFilteredProductProperties } from '../../selectors';
  * @returns {{properties: Array<Object>}}
  */
 const mapStateToProps = (state, ownProps) => ({
-  properties: getFilteredProductProperties(state, {
-    productId: ownProps.productId,
-  }),
+  properties: getFilteredProductProperties(state, ownProps),
 });
 
 export default connect(mapStateToProps);
