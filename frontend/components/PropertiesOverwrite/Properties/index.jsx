@@ -15,7 +15,7 @@ const Properties = ({ properties, isAccordion }) => {
   }
 
   return (
-    <div className={`${styles.content} ${isAccordion ? styles.contentAccordion : ''}`}>
+    <div className={`engage__product__product-properties ${styles.content} ${isAccordion ? styles.contentAccordion : ''}`}>
       <table className={styles.table}>
         <tbody>
           {properties.map(({ label, value }) => (
