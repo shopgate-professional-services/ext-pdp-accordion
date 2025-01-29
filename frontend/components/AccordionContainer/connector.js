@@ -14,9 +14,7 @@ import config from '../../config';
  * @returns {*}
  */
 export const prepareProperties = (accordionItems, state, ownProps) => {
-  const productProperties = getProductProperties(state, {
-    productId: ownProps.productId,
-  }) || [];
+  const productProperties = getProductProperties(state, ownProps) || [];
 
   return accordionItems
     .filter(property => (['reviews', 'description', 'static', 'properties'].indexOf(property.type) > -1) ||
@@ -41,12 +39,9 @@ export const prepareProperties = (accordionItems, state, ownProps) => {
   */
 const mapStateToProps = (state, ownProps) => ({
   configProperties: prepareProperties(config.accordionItems, state, ownProps),
-  description: getProductDescription(state, { productId: ownProps.productId }) || '',
-  productProperties: getProductProperties(state, { productId: ownProps.productId }) || [],
-  filteredProductProperties: getFilteredProductProperties(
-    state,
-    { productId: ownProps.productId }
-  ) || [],
+  description: getProductDescription(state, ownProps) || '',
+  productProperties: getProductProperties(state, ownProps) || [],
+  filteredProductProperties: getFilteredProductProperties(state, ownProps) || [],
   rating: getProductRating(state, { productId: ownProps.productId }) || {},
   reviews: getProductReviewsExcerpt(state, { productId: ownProps.productId }) || [],
 });
