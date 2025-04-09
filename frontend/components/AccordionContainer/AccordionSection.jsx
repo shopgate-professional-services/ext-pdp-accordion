@@ -51,6 +51,7 @@ class AccordionSection extends Component {
           onClick={onClick}
           className={`pdp-accordion__container__section__header ${styles.sectionButton}`}
           type="button"
+          aria-expanded={isOpen}
         >
           <div className={styles.sectionTitleWrapper}>
             <div className={`${styles.sectionTitle} accordion__container__section__header__title`}>
@@ -67,7 +68,7 @@ class AccordionSection extends Component {
             <AccordionIcon isOpen={isOpen} />
           </div>
         </button>
-        <div className={`pdp-accordion__container__section__content ${styles.transitionBlock} ${isOpen ? styles.transitionBlockOpen : null}`}>
+        <div className={`pdp-accordion__container__section__content ${styles.transitionBlock} ${isOpen ? styles.transitionBlockOpen : null}`} aria-hidden={!isOpen}>
           <div className={styles.sectionBlock}>
             {this.props.children}
           </div>
