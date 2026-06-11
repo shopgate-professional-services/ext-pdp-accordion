@@ -1,8 +1,13 @@
 import { connect } from 'react-redux';
 import { getProductReviewsExcerpt } from '@shopgate/pwa-common-commerce/reviews/selectors';
-import { getProductDescription, getProductProperties, getProductRating } from '@shopgate/pwa-common-commerce/product/selectors/product';
+import {
+  getProduct,
+  getProductDescription,
+  getProductProperties,
+  getProductRating,
+} from '@shopgate/pwa-common-commerce/product/selectors/product';
 import { getFilteredProductProperties } from '../../selectors';
-import config from '../../config';
+import config from '../../config.json';
 
 /**
  * Filters the accordion items if they are not in the current product
@@ -40,6 +45,7 @@ export const prepareProperties = (accordionItems, state, ownProps) => {
 const mapStateToProps = (state, ownProps) => ({
   configProperties: prepareProperties(config.accordionItems, state, ownProps),
   description: getProductDescription(state, ownProps) || '',
+  product: getProduct(state, ownProps),
   productProperties: getProductProperties(state, ownProps) || [],
   filteredProductProperties: getFilteredProductProperties(state, ownProps) || [],
   rating: getProductRating(state, { productId: ownProps.productId }) || {},

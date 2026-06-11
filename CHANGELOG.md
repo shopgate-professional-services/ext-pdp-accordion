@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.6.0] - 2026-06-11
+### Added
+- Added product variable replacement for static accordion HTML.
+
 ## [1.5.1] - 2025-04-10
 ### Fixed
 - Adjust eslint and eslint-config

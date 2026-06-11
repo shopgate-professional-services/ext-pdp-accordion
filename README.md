@@ -42,7 +42,8 @@ Extension will display product properties, product description, product reviews 
 - `sortOrder`: Use an integer to create the sort order. Lowest number will be shown first.
 - `info`: Put a random text you want to show here.
   - Only for static info
-  - Can contain HTMl
+  - Can contain HTML
+  - Can contain product variables: `{productName}`, `{productId}`, `{productNumber}`
 
 Please orient on the following example configuration for accordion Items.
 
@@ -72,10 +73,10 @@ Please orient on the following example configuration for accordion Items.
     {
       "type": "static",
       "name": "Static Info",
-      "info": "Here goes your text. <br /> It can contain HTML.",
+      "info": "Here goes your text for {productName}. <br /> SKU: {productNumber}. <br /> Produkt-ID: {productId}",
       "preview": true,
       "isActive": true,
-      "sortOrder": 3
+      "sortOrder": 1
     },
     {
       "type": "properties",

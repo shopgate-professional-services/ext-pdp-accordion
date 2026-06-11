@@ -1,5 +1,5 @@
 import React, {
-  useCallback, useState, useEffect, Fragment,
+  useCallback, useState, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
 import appConfig, { themeName } from '@shopgate/pwa-common/helpers/config';
@@ -14,9 +14,34 @@ import ReviewsIos from '../ReviewsOverwrite/theme-ios11/Reviews/index';
 import AccordionSection from './AccordionSection';
 import HTMLContent from '../HTMLContent';
 import connect from './connector';
+import formatHtml from '../../helpers/formatHtml';
 import styles from './style';
 
 const { allowMultipleOpen } = getConfig();
+
+/**
+ * Gets the product number from available product fields.
+ * @param {Object|null} product Product data.
+ * @returns {*}
+ */
+const getProductNumber = product => (
+  product && product.identifiers ? product.identifiers.sku : undefined
+);
+
+/**
+ * Creates the variable map for configured HTML blocks.
+ * @param {Object|null} product Product data.
+ * @returns {Object}
+ */
+const getProductVariables = (product) => {
+  const productNumber = getProductNumber(product);
+
+  return {
+    productName: product ? product.name : undefined,
+    productId: product ? product.id : undefined,
+    productNumber,
+  };
+};
 
 /**
  * The Accordion component
@@ -26,6 +51,7 @@ const { allowMultipleOpen } = getConfig();
 const Accordion = ({
   configProperties,
   description,
+  product,
   productProperties,
   filteredProductProperties,
   rating,
@@ -89,7 +115,7 @@ const Accordion = ({
         return configProperty.info
           ?
             <HTMLContent>
-              {configProperty.info}
+              {formatHtml(configProperty.info, getProductVariables(product))}
             </HTMLContent>
           : null;
       }
@@ -109,7 +135,7 @@ const Accordion = ({
           : null;
       }
     }
-  }, [description, filteredProductProperties.length, productProperties, rating, reviews]);
+  }, [description, filteredProductProperties.length, product, productProperties, rating, reviews]);
 
   const handleClick = useCallback((label) => {
     const isActive = !!activeSections[label];
@@ -159,9 +185,7 @@ const Accordion = ({
                 { sectionContent }
               </ExpandAndCollapse>
             ) : (
-              <Fragment>
-                { sectionContent }
-              </Fragment>
+              sectionContent
             )}
           </AccordionSection>
         );
@@ -174,6 +198,7 @@ Accordion.propTypes = {
   configProperties: PropTypes.arrayOf(PropTypes.shape()),
   description: PropTypes.string,
   filteredProductProperties: PropTypes.arrayOf(PropTypes.shape()),
+  product: PropTypes.shape(),
   productProperties: PropTypes.arrayOf(PropTypes.shape()),
   rating: PropTypes.shape(),
   reviews: PropTypes.arrayOf(PropTypes.shape()),
@@ -182,6 +207,7 @@ Accordion.propTypes = {
 Accordion.defaultProps = {
   configProperties: [],
   description: '',
+  product: null,
   productProperties: [],
   filteredProductProperties: [],
   rating: null,
