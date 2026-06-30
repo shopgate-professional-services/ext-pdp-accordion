@@ -44,6 +44,8 @@ Extension will display product properties, product description, product reviews 
   - Only for static info
   - Can contain HTML
   - Can contain product variables: `{productName}`, `{productId}`, `{productNumber}`
+  - Product variable values are HTML-escaped
+  - Configured scripts and styles are processed
 
 Please orient on the following example configuration for accordion Items.
 
@@ -86,6 +88,34 @@ Please orient on the following example configuration for accordion Items.
     }
   ]
 ```
+
+### Static HTML updates
+
+After a static block was rendered or updated, the extension dispatches a
+`pdpAccordion:updated` browser event. Integrations can listen to this event to
+reinitialize third-party widgets after SPA product navigation.
+
+```js
+window.addEventListener('pdpAccordion:updated', (event) => {
+  const {
+    name,
+    productId,
+    productName,
+    productNumber,
+  } = event.detail;
+
+  if (name !== 'Static Info') {
+    return;
+  }
+
+  // Reinitialize the third-party widget here.
+});
+```
+
+Static accordion HTML may be processed again during PDP lifecycle updates, for
+example after SPA product navigation. Third-party integrations should use the
+`pdpAccordion:updated` event as their stable hook instead of relying on inline
+scripts to execute exactly once.
 
 ## About Shopgate
 

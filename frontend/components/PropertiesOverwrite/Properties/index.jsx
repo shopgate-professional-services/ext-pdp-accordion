@@ -18,11 +18,11 @@ const Properties = ({ properties, isAccordion }) => {
     <div className={`engage__product__product-properties ${styles.content} ${isAccordion ? styles.contentAccordion : ''}`}>
       <table className={styles.table}>
         <tbody>
-          {properties.map(({ label, value }) => (
+          {properties.map(({ label, value }, index) => (
             <tr key={`${label}_${value}`}>
               <td className={styles.cell}>{label}</td>
               <td className={styles.cell} data-test-id={`property: ${value}`}>
-                <HTMLContent>{value}</HTMLContent>
+                <HTMLContent contentId={`properties-${index}-${label}`}>{value}</HTMLContent>
               </td>
             </tr>
           ))}

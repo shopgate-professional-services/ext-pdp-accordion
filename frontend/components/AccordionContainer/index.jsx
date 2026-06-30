@@ -13,11 +13,13 @@ import ReviewsAndroid from '../ReviewsOverwrite/theme-gmd/Reviews/index';
 import ReviewsIos from '../ReviewsOverwrite/theme-ios11/Reviews/index';
 import AccordionSection from './AccordionSection';
 import HTMLContent from '../HTMLContent';
+import StaticContent from '../StaticContent';
 import connect from './connector';
-import formatHtml from '../../helpers/formatHtml';
 import styles from './style';
 
 const { allowMultipleOpen } = getConfig();
+
+const PRODUCT_VARIABLE_PATTERN = /{\s*(productName|productId|productNumber)\s*}/;
 
 /**
  * Gets the product number from available product fields.
@@ -112,12 +114,23 @@ const Accordion = ({
           : null;
       }
       case 'static': {
-        return configProperty.info
-          ?
-            <HTMLContent>
-              {formatHtml(configProperty.info, getProductVariables(product))}
-            </HTMLContent>
-          : null;
+        if (!configProperty.info || configProperty.info.trim() === '') {
+          return null;
+        }
+
+        const hasProductVariables = PRODUCT_VARIABLE_PATTERN.test(configProperty.info);
+
+        if (hasProductVariables && !product) {
+          return null;
+        }
+
+        return (
+          <StaticContent
+            name={configProperty.name}
+            info={configProperty.info}
+            productVariables={getProductVariables(product)}
+          />
+        );
       }
       case 'properties': {
         return filteredProductProperties.length
@@ -129,7 +142,7 @@ const Accordion = ({
           .find(productProperty => productProperty.label === configProperty.name);
         return productProp
           ?
-            <HTMLContent>
+            <HTMLContent contentId={`property-${configProperty.name}`}>
               {productProp.value}
             </HTMLContent>
           : null;

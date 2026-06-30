@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## [1.6.0] - 2026-06-11
 ### Added
 - Added product variable replacement for static accordion HTML.
+- Process configured scripts and styles in static accordion HTML.
+- Added `pdpAccordion:updated` browser event for static HTML block updates.
 
 ## [1.5.1] - 2025-04-10
 ### Fixed
