@@ -36,7 +36,7 @@ const contentStyles = css({
  * @param {Object} props The component props
  * @returns {JSX}
  */
-const HTMLContent = ({ children }) => {
+const HTMLContent = ({ children, contentId, processStyles }) => {
   const { push } = useNavigation();
 
   const handleClick = useCallback((pathname, target) => {
@@ -48,7 +48,14 @@ const HTMLContent = ({ children }) => {
 
   return (
     <div className={contentStyles}>
-      <HtmlSanitizer settings={{ handleClick }}>
+      <HtmlSanitizer
+        processStyles={processStyles}
+        settings={{
+          extension: 'pdp-accordion',
+          content: contentId,
+          handleClick,
+        }}
+      >
         {children}
       </HtmlSanitizer>
     </div>
@@ -56,11 +63,14 @@ const HTMLContent = ({ children }) => {
 };
 
 HTMLContent.propTypes = {
+  contentId: PropTypes.string.isRequired,
   children: PropTypes.node,
+  processStyles: PropTypes.bool,
 };
 
 HTMLContent.defaultProps = {
   children: null,
+  processStyles: false,
 };
 
 export default HTMLContent;

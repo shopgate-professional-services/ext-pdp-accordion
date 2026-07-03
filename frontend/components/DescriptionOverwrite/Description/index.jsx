@@ -17,7 +17,7 @@ const Description = (props) => {
   return (
     <div className={styles.container}>
       <PlaceholderParagraph className={styles.placeholder} ready={!!props.html}>
-        <HTMLContent>
+        <HTMLContent contentId="description">
           {props.html}
         </HTMLContent>
       </PlaceholderParagraph>

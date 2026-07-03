@@ -1,5 +1,5 @@
 import React, {
-  useCallback, useState, useEffect, Fragment,
+  useCallback, useState, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
 import appConfig, { themeName } from '@shopgate/pwa-common/helpers/config';
@@ -13,10 +13,37 @@ import ReviewsAndroid from '../ReviewsOverwrite/theme-gmd/Reviews/index';
 import ReviewsIos from '../ReviewsOverwrite/theme-ios11/Reviews/index';
 import AccordionSection from './AccordionSection';
 import HTMLContent from '../HTMLContent';
+import StaticContent from '../StaticContent';
 import connect from './connector';
 import styles from './style';
 
 const { allowMultipleOpen } = getConfig();
+
+const PRODUCT_VARIABLE_PATTERN = /{\s*(productName|productId|productNumber)\s*}/;
+
+/**
+ * Gets the product number from available product fields.
+ * @param {Object|null} product Product data.
+ * @returns {*}
+ */
+const getProductNumber = product => (
+  product && product.identifiers ? product.identifiers.sku : undefined
+);
+
+/**
+ * Creates the variable map for configured HTML blocks.
+ * @param {Object|null} product Product data.
+ * @returns {Object}
+ */
+const getProductVariables = (product) => {
+  const productNumber = getProductNumber(product);
+
+  return {
+    productName: product ? product.name : undefined,
+    productId: product ? product.id : undefined,
+    productNumber,
+  };
+};
 
 /**
  * The Accordion component
@@ -26,6 +53,7 @@ const { allowMultipleOpen } = getConfig();
 const Accordion = ({
   configProperties,
   description,
+  product,
   productProperties,
   filteredProductProperties,
   rating,
@@ -86,12 +114,23 @@ const Accordion = ({
           : null;
       }
       case 'static': {
-        return configProperty.info
-          ?
-            <HTMLContent>
-              {configProperty.info}
-            </HTMLContent>
-          : null;
+        if (!configProperty.info || configProperty.info.trim() === '') {
+          return null;
+        }
+
+        const hasProductVariables = PRODUCT_VARIABLE_PATTERN.test(configProperty.info);
+
+        if (hasProductVariables && !product) {
+          return null;
+        }
+
+        return (
+          <StaticContent
+            name={configProperty.name}
+            info={configProperty.info}
+            productVariables={getProductVariables(product)}
+          />
+        );
       }
       case 'properties': {
         return filteredProductProperties.length
@@ -103,13 +142,13 @@ const Accordion = ({
           .find(productProperty => productProperty.label === configProperty.name);
         return productProp
           ?
-            <HTMLContent>
+            <HTMLContent contentId={`property-${configProperty.name}`}>
               {productProp.value}
             </HTMLContent>
           : null;
       }
     }
-  }, [description, filteredProductProperties.length, productProperties, rating, reviews]);
+  }, [description, filteredProductProperties.length, product, productProperties, rating, reviews]);
 
   const handleClick = useCallback((label) => {
     const isActive = !!activeSections[label];
@@ -159,9 +198,7 @@ const Accordion = ({
                 { sectionContent }
               </ExpandAndCollapse>
             ) : (
-              <Fragment>
-                { sectionContent }
-              </Fragment>
+              sectionContent
             )}
           </AccordionSection>
         );
@@ -174,6 +211,7 @@ Accordion.propTypes = {
   configProperties: PropTypes.arrayOf(PropTypes.shape()),
   description: PropTypes.string,
   filteredProductProperties: PropTypes.arrayOf(PropTypes.shape()),
+  product: PropTypes.shape(),
   productProperties: PropTypes.arrayOf(PropTypes.shape()),
   rating: PropTypes.shape(),
   reviews: PropTypes.arrayOf(PropTypes.shape()),
@@ -182,6 +220,7 @@ Accordion.propTypes = {
 Accordion.defaultProps = {
   configProperties: [],
   description: '',
+  product: null,
   productProperties: [],
   filteredProductProperties: [],
   rating: null,
