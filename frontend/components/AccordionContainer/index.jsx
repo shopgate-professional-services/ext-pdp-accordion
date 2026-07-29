@@ -1,5 +1,5 @@
 import React, {
-  useCallback, useState, useEffect,
+  useCallback, useMemo, useState, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
 import appConfig, { themeName } from '@shopgate/pwa-common/helpers/config';
@@ -17,7 +17,7 @@ import StaticContent from '../StaticContent';
 import connect from './connector';
 import styles from './style';
 
-const { allowMultipleOpen } = getConfig();
+const { allowMultipleOpen, productVariablesFromParent } = getConfig();
 
 const PRODUCT_VARIABLE_PATTERN = /{\s*(productName|productId|productNumber)\s*}/;
 
@@ -31,19 +31,61 @@ const getProductNumber = product => (
 );
 
 /**
+ * Reads a value from the primary product and falls back to the secondary one when it's not set.
+ * An empty string is a valid value and doesn't trigger the fallback.
+ * @param {Object|null} primary Preferred product data.
+ * @param {Object|null} fallback Fallback product data.
+ * @param {Function} accessor Reads the value from a product.
+ * @returns {*}
+ */
+const resolveVariable = (primary, fallback, accessor) => {
+  const value = accessor(primary);
+
+  if (value !== null && typeof value !== 'undefined') {
+    return value;
+  }
+
+  return accessor(fallback);
+};
+
+/**
  * Creates the variable map for configured HTML blocks.
- * @param {Object|null} product Product data.
+ *
+ * By default the values of the selected variant are used, falling back to the base product per
+ * field - variant data arrives asynchronously and single fields like the SKU might not be
+ * maintained on the variant. With productVariablesFromParent only base product values are used.
+ * @param {Object|null} product The currently selected product (variant when one is selected).
+ * @param {Object|null} baseProduct The base product.
  * @returns {Object}
  */
-const getProductVariables = (product) => {
-  const productNumber = getProductNumber(product);
+const getProductVariables = (product, baseProduct) => {
+  const primary = productVariablesFromParent ? baseProduct : product;
+  const fallback = productVariablesFromParent ? null : baseProduct;
 
   return {
-    productName: product ? product.name : undefined,
-    productId: product ? product.id : undefined,
-    productNumber,
+    productName: resolveVariable(
+      primary,
+      fallback,
+      productData => (productData ? productData.name : undefined)
+    ),
+    productId: resolveVariable(
+      primary,
+      fallback,
+      productData => (productData ? productData.id : undefined)
+    ),
+    productNumber: resolveVariable(primary, fallback, getProductNumber),
   };
 };
+
+/**
+ * Checks whether enough product data is available to resolve product variables.
+ * @param {Object|null} product The currently selected product (variant when one is selected).
+ * @param {Object|null} baseProduct The base product.
+ * @returns {boolean}
+ */
+const hasProductVariableSource = (product, baseProduct) => (
+  productVariablesFromParent ? !!baseProduct : !!(product || baseProduct)
+);
 
 /**
  * The Accordion component
@@ -54,12 +96,19 @@ const Accordion = ({
   configProperties,
   description,
   product,
+  baseProduct,
   productProperties,
   filteredProductProperties,
   rating,
   reviews,
 }) => {
   const [activeSections, setActiveSections] = useState(null);
+
+  // Stable identity, otherwise StaticContent re-emits its update event on every render.
+  const productVariables = useMemo(
+    () => getProductVariables(product, baseProduct),
+    [product, baseProduct]
+  );
 
   useEffect(() => {
     const sections = configProperties.reduce((acc, { isActive, headline, name }) => ({
@@ -120,7 +169,7 @@ const Accordion = ({
 
         const hasProductVariables = PRODUCT_VARIABLE_PATTERN.test(configProperty.info);
 
-        if (hasProductVariables && !product) {
+        if (hasProductVariables && !hasProductVariableSource(product, baseProduct)) {
           return null;
         }
 
@@ -128,7 +177,7 @@ const Accordion = ({
           <StaticContent
             name={configProperty.name}
             info={configProperty.info}
-            productVariables={getProductVariables(product)}
+            productVariables={productVariables}
           />
         );
       }
@@ -148,7 +197,16 @@ const Accordion = ({
           : null;
       }
     }
-  }, [description, filteredProductProperties.length, product, productProperties, rating, reviews]);
+  }, [
+    baseProduct,
+    description,
+    filteredProductProperties.length,
+    product,
+    productProperties,
+    productVariables,
+    rating,
+    reviews,
+  ]);
 
   const handleClick = useCallback((label) => {
     const isActive = !!activeSections[label];
@@ -208,6 +266,7 @@ const Accordion = ({
 };
 
 Accordion.propTypes = {
+  baseProduct: PropTypes.shape(),
   configProperties: PropTypes.arrayOf(PropTypes.shape()),
   description: PropTypes.string,
   filteredProductProperties: PropTypes.arrayOf(PropTypes.shape()),
@@ -218,6 +277,7 @@ Accordion.propTypes = {
 };
 
 Accordion.defaultProps = {
+  baseProduct: null,
   configProperties: [],
   description: '',
   product: null,
