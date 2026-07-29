@@ -1,5 +1,5 @@
 {
-  "version": "1.6.0",
+  "version": "1.7.0",
   "id": "@shopgate-project/pdp-accordion",
   "components": [
     {
@@ -177,6 +177,15 @@
       "params": {
         "type": "checkbox",
         "label": "Wether the last accordion is rendered with a border at the bottom"
+      }
+    },
+    "productVariablesFromParent": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": false,
+      "params": {
+        "type": "checkbox",
+        "label": "Resolve product variables ({productName}, {productId}, {productNumber}) in static content from the parent product instead of the selected variant"
       }
     }
   }

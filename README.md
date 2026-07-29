@@ -22,6 +22,9 @@ Extension will display product properties, product description, product reviews 
 - `sectionButtonIconFontSize`: Font size of the icon.
 - `sectionButtonIconColor`: Color of the icon.
 - `animated`: Wether the accordions are animated.
+- `productVariablesFromParent`: Wether the product variables in static content are resolved from the parent product instead of the selected variant.
+  - `false` (default): values of the selected variant. Single fields fall back to the parent product when the variant doesn't provide them (yet).
+  - `true`: always the values of the parent product.
 
 ### Params for accordionItems
 
@@ -44,6 +47,7 @@ Extension will display product properties, product description, product reviews 
   - Only for static info
   - Can contain HTML
   - Can contain product variables: `{productName}`, `{productId}`, `{productNumber}`
+  - On variant products the values are taken from the selected variant, unless `productVariablesFromParent` is enabled
   - Product variable values are HTML-escaped
   - Configured scripts and styles are processed
 
