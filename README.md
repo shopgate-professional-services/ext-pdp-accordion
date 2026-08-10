@@ -9,7 +9,7 @@ Extension will display product properties, product description, product reviews 
 
 - `accordionItems`: Object of accordion items.
 - `sectionBorderColor`: The (upper) border color of a section.
-- `showLastSectionBottomBorder`: Wether the last section has a border at to bottom.
+- `showLastSectionBottomBorder`: Whether the last section has a border at to bottom.
 - `sectionColor`: The background color of an open section.
 - `sectionTextColor`: The text color of an open section.
 - `sectionButtonColor`: The button color.
@@ -21,9 +21,9 @@ Extension will display product properties, product description, product reviews 
 - `sectionButtonIconOpen`: An SVG icon for the open state of a section. `sectionButtonIcon` will be used for the closed state.
 - `sectionButtonIconFontSize`: Font size of the icon.
 - `sectionButtonIconColor`: Color of the icon.
-- `animated`: Wether the accordions are animated.
-- `productVariablesFromParent`: Wether the product variables in static content are resolved from the parent product instead of the selected variant.
-  - `false` (default): values of the selected variant. Single fields fall back to the parent product when the variant doesn't provide them (yet).
+- `animated`: Whether the accordions are animated.
+- `productVariablesFromParent`: Whether the product variables in static content are resolved from the parent product instead of the selected variant.
+  - `false` (default): values of the selected variant, or the base product when no variant is selected. Missing variant fields fall back to the parent product.
   - `true`: always the values of the parent product.
 
 ### Params for accordionItems

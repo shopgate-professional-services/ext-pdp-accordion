@@ -31,61 +31,38 @@ const getProductNumber = product => (
 );
 
 /**
- * Reads a value from the primary product and falls back to the secondary one when it's not set.
+ * Falls back to the secondary value when the preferred value isn't set.
  * An empty string is a valid value and doesn't trigger the fallback.
- * @param {Object|null} primary Preferred product data.
- * @param {Object|null} fallback Fallback product data.
- * @param {Function} accessor Reads the value from a product.
+ * @param {*} primary Preferred value.
+ * @param {*} fallback Fallback value.
  * @returns {*}
  */
-const resolveVariable = (primary, fallback, accessor) => {
-  const value = accessor(primary);
-
-  if (value !== null && typeof value !== 'undefined') {
-    return value;
+const resolveVariable = (primary, fallback) => {
+  if (primary !== null && typeof primary !== 'undefined') {
+    return primary;
   }
 
-  return accessor(fallback);
+  return fallback;
 };
 
 /**
  * Creates the variable map for configured HTML blocks.
  *
- * By default the values of the selected variant are used, falling back to the base product per
- * field - variant data arrives asynchronously and single fields like the SKU might not be
- * maintained on the variant. With productVariablesFromParent only base product values are used.
- * @param {Object|null} product The currently selected product (variant when one is selected).
- * @param {Object|null} baseProduct The base product.
+ * @param {Object|null} primary Preferred product data.
+ * @param {Object|null} fallback Fallback product data.
  * @returns {Object}
  */
-const getProductVariables = (product, baseProduct) => {
-  const primary = productVariablesFromParent ? baseProduct : product;
-  const fallback = productVariablesFromParent ? null : baseProduct;
-
-  return {
-    productName: resolveVariable(
-      primary,
-      fallback,
-      productData => (productData ? productData.name : undefined)
-    ),
-    productId: resolveVariable(
-      primary,
-      fallback,
-      productData => (productData ? productData.id : undefined)
-    ),
-    productNumber: resolveVariable(primary, fallback, getProductNumber),
-  };
-};
-
-/**
- * Checks whether enough product data is available to resolve product variables.
- * @param {Object|null} product The currently selected product (variant when one is selected).
- * @param {Object|null} baseProduct The base product.
- * @returns {boolean}
- */
-const hasProductVariableSource = (product, baseProduct) => (
-  productVariablesFromParent ? !!baseProduct : !!(product || baseProduct)
-);
+const getProductVariables = (primary, fallback) => ({
+  productName: resolveVariable(
+    primary ? primary.name : undefined,
+    fallback ? fallback.name : undefined
+  ),
+  productId: resolveVariable(
+    primary ? primary.id : undefined,
+    fallback ? fallback.id : undefined
+  ),
+  productNumber: resolveVariable(getProductNumber(primary), getProductNumber(fallback)),
+});
 
 /**
  * The Accordion component
@@ -103,11 +80,13 @@ const Accordion = ({
   reviews,
 }) => {
   const [activeSections, setActiveSections] = useState(null);
+  const primaryProduct = productVariablesFromParent ? baseProduct : product;
+  const fallbackProduct = productVariablesFromParent ? null : baseProduct;
 
-  // Stable identity, otherwise StaticContent re-emits its update event on every render.
+  // Keep downstream formatting stable while the source products are unchanged.
   const productVariables = useMemo(
-    () => getProductVariables(product, baseProduct),
-    [product, baseProduct]
+    () => getProductVariables(primaryProduct, fallbackProduct),
+    [fallbackProduct, primaryProduct]
   );
 
   useEffect(() => {
@@ -169,7 +148,7 @@ const Accordion = ({
 
         const hasProductVariables = PRODUCT_VARIABLE_PATTERN.test(configProperty.info);
 
-        if (hasProductVariables && !hasProductVariableSource(product, baseProduct)) {
+        if (hasProductVariables && !primaryProduct) {
           return null;
         }
 
@@ -198,10 +177,9 @@ const Accordion = ({
       }
     }
   }, [
-    baseProduct,
     description,
     filteredProductProperties.length,
-    product,
+    primaryProduct,
     productProperties,
     productVariables,
     rating,
