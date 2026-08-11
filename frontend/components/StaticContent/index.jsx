@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, memo } from 'react';
 import PropTypes from 'prop-types';
 import HTMLContent from '../HTMLContent';
 import formatHtml from '../../helpers/formatHtml';
@@ -66,4 +66,4 @@ StaticContent.propTypes = {
   productVariables: PropTypes.shape().isRequired,
 };
 
-export default StaticContent;
+export default memo(StaticContent);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import PlaceholderParagraph from '@shopgate/pwa-ui-shared/PlaceholderParagraph';
 import HTMLContent from '../../HTMLContent';
@@ -33,4 +33,4 @@ Description.defaultProps = {
   html: null,
 };
 
-export default Description;
+export default memo(Description);
