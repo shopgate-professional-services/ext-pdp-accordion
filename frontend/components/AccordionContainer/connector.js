@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { getProductReviewsExcerpt } from '@shopgate/pwa-common-commerce/reviews/selectors';
 import {
+  getBaseProduct,
   getProduct,
   getProductDescription,
   getProductProperties,
@@ -46,6 +47,7 @@ const mapStateToProps = (state, ownProps) => ({
   configProperties: prepareProperties(config.accordionItems, state, ownProps),
   description: getProductDescription(state, ownProps) || '',
   product: getProduct(state, ownProps),
+  baseProduct: getBaseProduct(state, ownProps),
   productProperties: getProductProperties(state, ownProps) || [],
   filteredProductProperties: getFilteredProductProperties(state, ownProps) || [],
   rating: getProductRating(state, { productId: ownProps.productId }) || {},

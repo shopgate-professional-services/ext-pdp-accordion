@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, memo } from 'react';
 import PropTypes from 'prop-types';
 import HTMLContent from '../HTMLContent';
 import formatHtml from '../../helpers/formatHtml';
@@ -8,9 +8,8 @@ const ACCORDION_UPDATED_EVENT = 'pdpAccordion:updated';
 /**
  * Renders a static accordion HTML block with resolved product variables.
  *
- * After each render a `pdpAccordion:updated` browser event is dispatched so
- * integrations can reinitialize third-party widgets after SPA product
- * navigation.
+ * Dispatches `pdpAccordion:updated` when its resolved content or product
+ * variables change so integrations can reinitialize third-party widgets.
  * @param {Object} props The component props.
  * @returns {JSX}
  */
@@ -19,9 +18,19 @@ const StaticContent = ({
   info,
   productVariables,
 }) => {
+  const {
+    productId,
+    productName,
+    productNumber,
+  } = productVariables;
+  const resolvedProductVariables = useMemo(() => ({
+    productId,
+    productName,
+    productNumber,
+  }), [productId, productName, productNumber]);
   const formattedHtml = useMemo(
-    () => formatHtml(info, productVariables),
-    [info, productVariables]
+    () => formatHtml(info, resolvedProductVariables),
+    [info, resolvedProductVariables]
   );
 
   useEffect(() => {
@@ -33,10 +42,10 @@ const StaticContent = ({
       detail: {
         name,
         html: formattedHtml,
-        ...productVariables,
+        ...resolvedProductVariables,
       },
     }));
-  }, [formattedHtml, name, productVariables]);
+  }, [formattedHtml, name, resolvedProductVariables]);
 
   const contentId = `static-${name}`;
 
@@ -57,4 +66,4 @@ StaticContent.propTypes = {
   productVariables: PropTypes.shape().isRequired,
 };
 
-export default StaticContent;
+export default memo(StaticContent);

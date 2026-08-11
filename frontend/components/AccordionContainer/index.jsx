@@ -1,5 +1,5 @@
 import React, {
-  useCallback, useState, useEffect,
+  useCallback, useMemo, useState, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
 import appConfig, { themeName } from '@shopgate/pwa-common/helpers/config';
@@ -17,7 +17,7 @@ import StaticContent from '../StaticContent';
 import connect from './connector';
 import styles from './style';
 
-const { allowMultipleOpen } = getConfig();
+const { allowMultipleOpen, productVariablesFromParent } = getConfig();
 
 const PRODUCT_VARIABLE_PATTERN = /{\s*(productName|productId|productNumber)\s*}/;
 
@@ -31,19 +31,38 @@ const getProductNumber = product => (
 );
 
 /**
+ * Falls back to the secondary value when the preferred value isn't set.
+ * An empty string is a valid value and doesn't trigger the fallback.
+ * @param {*} primary Preferred value.
+ * @param {*} fallback Fallback value.
+ * @returns {*}
+ */
+const resolveVariable = (primary, fallback) => {
+  if (primary !== null && typeof primary !== 'undefined') {
+    return primary;
+  }
+
+  return fallback;
+};
+
+/**
  * Creates the variable map for configured HTML blocks.
- * @param {Object|null} product Product data.
+ *
+ * @param {Object|null} primary Preferred product data.
+ * @param {Object|null} fallback Fallback product data.
  * @returns {Object}
  */
-const getProductVariables = (product) => {
-  const productNumber = getProductNumber(product);
-
-  return {
-    productName: product ? product.name : undefined,
-    productId: product ? product.id : undefined,
-    productNumber,
-  };
-};
+const getProductVariables = (primary, fallback) => ({
+  productName: resolveVariable(
+    primary ? primary.name : undefined,
+    fallback ? fallback.name : undefined
+  ),
+  productId: resolveVariable(
+    primary ? primary.id : undefined,
+    fallback ? fallback.id : undefined
+  ),
+  productNumber: resolveVariable(getProductNumber(primary), getProductNumber(fallback)),
+});
 
 /**
  * The Accordion component
@@ -54,12 +73,21 @@ const Accordion = ({
   configProperties,
   description,
   product,
+  baseProduct,
   productProperties,
   filteredProductProperties,
   rating,
   reviews,
 }) => {
   const [activeSections, setActiveSections] = useState(null);
+  const primaryProduct = productVariablesFromParent ? baseProduct : product;
+  const fallbackProduct = productVariablesFromParent ? null : baseProduct;
+
+  // Keep downstream formatting stable while the source products are unchanged.
+  const productVariables = useMemo(
+    () => getProductVariables(primaryProduct, fallbackProduct),
+    [fallbackProduct, primaryProduct]
+  );
 
   useEffect(() => {
     const sections = configProperties.reduce((acc, { isActive, headline, name }) => ({
@@ -120,7 +148,7 @@ const Accordion = ({
 
         const hasProductVariables = PRODUCT_VARIABLE_PATTERN.test(configProperty.info);
 
-        if (hasProductVariables && !product) {
+        if (hasProductVariables && !primaryProduct) {
           return null;
         }
 
@@ -128,7 +156,7 @@ const Accordion = ({
           <StaticContent
             name={configProperty.name}
             info={configProperty.info}
-            productVariables={getProductVariables(product)}
+            productVariables={productVariables}
           />
         );
       }
@@ -148,7 +176,15 @@ const Accordion = ({
           : null;
       }
     }
-  }, [description, filteredProductProperties.length, product, productProperties, rating, reviews]);
+  }, [
+    description,
+    filteredProductProperties.length,
+    primaryProduct,
+    productProperties,
+    productVariables,
+    rating,
+    reviews,
+  ]);
 
   const handleClick = useCallback((label) => {
     const isActive = !!activeSections[label];
@@ -208,6 +244,7 @@ const Accordion = ({
 };
 
 Accordion.propTypes = {
+  baseProduct: PropTypes.shape(),
   configProperties: PropTypes.arrayOf(PropTypes.shape()),
   description: PropTypes.string,
   filteredProductProperties: PropTypes.arrayOf(PropTypes.shape()),
@@ -218,6 +255,7 @@ Accordion.propTypes = {
 };
 
 Accordion.defaultProps = {
+  baseProduct: null,
   configProperties: [],
   description: '',
   product: null,

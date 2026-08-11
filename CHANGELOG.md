@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.7.0] - 2026-08-10
+### Added
+- Added `productVariablesFromParent` config option to resolve product variables in static content from the parent product instead of the selected variant.
+
+### Fixed
+- Missing variant fields now fall back to the corresponding parent product values.
+- Static content waits for a selected variant to load before resolving its variables.
+- `pdpAccordion:updated` is only dispatched when the resolved content or product variables change.
+
 ## [1.6.0] - 2026-06-11
 ### Added
 - Added product variable replacement for static accordion HTML.
