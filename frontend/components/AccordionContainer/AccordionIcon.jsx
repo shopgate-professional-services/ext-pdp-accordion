@@ -10,6 +10,8 @@ const {
   sectionButtonIconFontSize,
 } = config;
 
+const iconSize = sectionButtonIconFontSize || 16;
+
 const useStyles = makeStyles()(() => ({
   arrow: {
     flex: '0 0 auto',
@@ -38,12 +40,12 @@ const AccordionIcon = ({ isOpen }) => {
             <Icon
               content={sectionButtonIcon}
               className={!sectionButtonIconOpen ? classes.arrowDown : null}
-              size={sectionButtonIconFontSize}
+              size={iconSize}
             />
           ) : (
             <ArrowIcon
               className={classes.arrowDown}
-              size={sectionButtonIconFontSize}
+              size={iconSize}
             />
           )}
         </span>
@@ -58,12 +60,12 @@ const AccordionIcon = ({ isOpen }) => {
           <Icon
             content={sectionButtonIconOpen || sectionButtonIcon}
             className={!sectionButtonIconOpen ? classes.arrowUp : null}
-            size={sectionButtonIconFontSize}
+            size={iconSize}
           />
         ) : (
           <ArrowIcon
             className={classes.arrowUp}
-            size={sectionButtonIconFontSize}
+            size={iconSize}
           />
         ) }
       </span>
