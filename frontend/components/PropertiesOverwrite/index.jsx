@@ -1,9 +1,10 @@
-import { withCurrentProduct } from '@shopgate/engage/core';
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import connect from './connector';
+import { useSelector } from 'react-redux';
+import { withCurrentProduct } from '@shopgate/engage/core/hocs';
+import { getFilteredProductProperties } from '../../selectors';
 import Properties from './Properties/index';
-import config from '../../config';
+import config from '../../config.json';
 
 /**
  * The PropertiesOverwrite component.
@@ -11,7 +12,9 @@ import config from '../../config';
  * @param {Object} props The component props.
  * @returns {JSX|null}
  */
-const PropertiesOverwrite = ({ properties, isAccordion }) => {
+const PropertiesOverwrite = ({ productId, isAccordion }) => {
+  const properties = useSelector(state => getFilteredProductProperties(state, { productId }));
+
   const hide = useMemo(() => {
     const hasPropertiesConfig = config.accordionItems.some(property => property.type === 'properties');
     return !isAccordion && hasPropertiesConfig;
@@ -28,12 +31,12 @@ const PropertiesOverwrite = ({ properties, isAccordion }) => {
 
 PropertiesOverwrite.propTypes = {
   isAccordion: PropTypes.bool,
-  properties: PropTypes.arrayOf(PropTypes.shape()),
+  productId: PropTypes.string,
 };
 
 PropertiesOverwrite.defaultProps = {
-  properties: null,
   isAccordion: false,
+  productId: null,
 };
 
-export default withCurrentProduct(connect(PropertiesOverwrite));
+export default withCurrentProduct(PropertiesOverwrite);

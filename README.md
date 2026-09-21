@@ -8,23 +8,18 @@ Extension will display product properties, product description, product reviews 
 ## Config
 
 - `accordionItems`: Object of accordion items.
-- `sectionBorderColor`: The (upper) border color of a section.
 - `showLastSectionBottomBorder`: Whether the last section has a border at to bottom.
-- `sectionColor`: The background color of an open section.
-- `sectionTextColor`: The text color of an open section.
-- `sectionButtonColor`: The button color.
-- `sectionButtonTextColor`: The color of the button text.
-- `sectionButtonTextSize`: The size of the button text.
 - `sectionPreviewHeight`: The height of the section preview in pixel.
 - `allowMultipleOpen`: true or false to configure if more than one accordion section can be open.
 - `sectionButtonIcon`: An SVG icon replacement for the default section icon (will be tuned by 180° in open state).
 - `sectionButtonIconOpen`: An SVG icon for the open state of a section. `sectionButtonIcon` will be used for the closed state.
 - `sectionButtonIconFontSize`: Font size of the icon.
-- `sectionButtonIconColor`: Color of the icon.
 - `animated`: Whether the accordions are animated.
 - `productVariablesFromParent`: Whether the product variables in static content are resolved from the parent product instead of the selected variant.
   - `false` (default): values of the selected variant, or the base product when no variant is selected. Missing variant fields fall back to the parent product.
   - `true`: always the values of the parent product.
+
+The section colors (button background, expanded section background and text) and text sizes (section button and content) are sourced from the active theme and are no longer configurable via this extension.
 
 ### Params for accordionItems
 
