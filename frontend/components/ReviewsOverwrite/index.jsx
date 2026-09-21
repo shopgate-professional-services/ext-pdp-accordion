@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import config from '../../config';
+import config from '../../config.json';
 
 const show = !config.accordionItems.some(property => property.type === 'reviews');
 

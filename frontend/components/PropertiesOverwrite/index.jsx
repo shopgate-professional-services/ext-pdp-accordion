@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { withCurrentProduct } from '@shopgate/engage/core/hocs';
 import { getFilteredProductProperties } from '../../selectors';
 import Properties from './Properties/index';
-import config from '../../config';
+import config from '../../config.json';
 
 /**
  * The PropertiesOverwrite component.

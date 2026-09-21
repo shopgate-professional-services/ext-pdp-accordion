@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon, ArrowIcon } from '@shopgate/engage/components';
 import { makeStyles } from '@shopgate/engage/styles';
-import config from '../../config';
+import config from '../../config.json';
 
 const {
   sectionButtonIcon,

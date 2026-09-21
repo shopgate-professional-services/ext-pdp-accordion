@@ -1,4 +1,5 @@
-import config from '../../config';
+import PropTypes from 'prop-types';
+import config from '../../config.json';
 
 /**
  * The DescriptionOverwrite component.
@@ -7,13 +8,20 @@ import config from '../../config';
  * @returns {JSX|null}
  */
 const DescriptionOverwrite = ({ children }) => {
-  // Only show description if it's not defined in config as type
   const show = !config.accordionItems.some(property => property.type === 'description');
 
   if (!show) {
     return null;
   }
   return children;
+};
+
+DescriptionOverwrite.propTypes = {
+  children: PropTypes.node,
+};
+
+DescriptionOverwrite.defaultProps = {
+  children: null,
 };
 
 export default DescriptionOverwrite;

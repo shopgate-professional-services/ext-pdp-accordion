@@ -11,7 +11,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - section button and content text sizes are now sourced from the theme typography (`theme.typography.h5`/`body2`)
 - reviews are now composed from the engage core review sub-components instead of the bundled `theme-gmd`/`theme-ios11` forks (both forks removed)
 - migrated all styling from glamor to `@shopgate/engage/styles` (`makeStyles`/`useStyles`)
-- `@shopgate/engage` is now a `>=7.32.0-beta.19` peer & dev dependency (drops PWA 6 support); dropped the legacy babel/glamor toolchain
+- `@shopgate/engage` is now a `7.32.0-beta.20` peer dependency (drops PWA 6 support); dropped the legacy babel/glamor toolchain
 
 ### Removed
 - removed the `sectionColor`, `sectionTextColor`, `sectionBorderColor`, `sectionButtonColor`, `sectionButtonTextColor` and `sectionButtonIconColor` config options; section colors now come from the active theme
