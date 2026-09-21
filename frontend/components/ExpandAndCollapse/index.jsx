@@ -1,101 +1,97 @@
-import React, { Component } from 'react';
+import React, {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
 import PropTypes from 'prop-types';
-import I18n from '@shopgate/pwa-common/components/I18n';
-import styles from './style';
+import { I18n } from '@shopgate/engage/components';
+import { makeStyles } from '@shopgate/engage/styles';
 import getConfig from '../../helpers/getConfig';
 
 const { sectionPreviewHeight } = getConfig();
 
+const useStyles = makeStyles()(theme => ({
+  expandButton: {
+    color: theme.palette.text.primary,
+    marginTop: 10,
+    textDecoration: `underline ${theme.palette.primary.main}`,
+    '&:focus': {
+      outline: 'none',
+    },
+  },
+  specialTextNoExpand: {},
+  specialText: {
+    position: 'relative',
+    maxHeight: sectionPreviewHeight || '100',
+    overflow: 'hidden',
+    transition: 'max-height 1s ease',
+    '&.-expanded': {
+      maxHeight: '10000vh',
+    },
+    '&:not(.-expanded):after': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      background: `linear-gradient(transparent, ${theme.palette.background.default})`,
+    },
+  },
+}));
+
 /**
  * The ExpandAndCollapse component.
+ * @param {Object} props The component props.
+ * @returns {JSX}
  */
-class ExpandAndCollapse extends Component {
-  static propTypes = {
-    children: PropTypes.instanceOf(Object),
-  };
+const ExpandAndCollapse = ({ children }) => {
+  const { classes, cx } = useStyles();
+  const expandRef = useRef(null);
+  const [expanded, setExpanded] = useState(false);
+  const [showExpandButton, setShowExpandButton] = useState(true);
 
-  static defaultProps = {
-    children: null,
-  };
+  const html = children && children.props ? children.props.html : undefined;
 
-  /**
-   *@param {Object} props The component props.
-   */
-  constructor(props) {
-    super(props);
-    this.expandRef = React.createRef();
-    this.state = {
-      expanded: false,
-      showExpandButton: true,
-    };
-  }
-
-  /**
-   * Helper.
-   */
-  componentDidMount() {
-    if (this.expandRef.current.clientHeight < parseInt(sectionPreviewHeight, 10)) {
-      this.setState({
-        showExpandButton: false,
-      });
+  useEffect(() => {
+    if (!expandRef.current) {
+      return;
     }
-  }
+    setShowExpandButton(expandRef.current.clientHeight >= parseInt(sectionPreviewHeight, 10));
+  }, [html]);
 
-  /**
-   * @param {Object} prevProps previous properties
-   * Helper.
-   */
-  componentDidUpdate(prevProps) {
-    if (prevProps.children.props.html !== this.props.children.props.html && this.props.children.props.html !== '') {
-      if (this.expandRef.current.clientHeight < parseInt(sectionPreviewHeight, 10)) {
-        // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({
-          showExpandButton: false,
-        });
-      } else {
-        // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({
-          showExpandButton: true,
-        });
-      }
-    }
-  }
+  const handleClick = useCallback(() => {
+    setExpanded(prev => !prev);
+  }, []);
 
-  /**
-   * Handles touch start action.
-   */
-  handleClick = () => {
-    const currentState = this.state.expanded;
-    this.setState({
-      expanded: !currentState,
-    });
-  };
-
-  /**
-   * Renders.
-   * @returns {JSX}
-   */
-  render() {
-    if (!this.state.showExpandButton) {
-      return (
-        <div>
-          <div ref={this.expandRef} className={styles.specialTextNoExpand}>
-            {this.props.children}
-          </div>
-        </div>
-      );
-    }
+  if (!showExpandButton) {
     return (
       <div>
-        <div ref={this.expandRef} className={`${styles.specialText} ${this.state.expanded ? '-expanded' : ''}`}>
-          {this.props.children}
+        <div ref={expandRef} className={classes.specialTextNoExpand}>
+          {children}
         </div>
-        <button type="button" className={styles.expandButton} onClick={this.handleClick}>
-          {this.state.expanded ? <I18n.Text string="accordion.expandButton.labelCollapse" /> : <I18n.Text string="accordion.expandButton.labelExpand" />}
-        </button>
       </div>
     );
   }
-}
+
+  return (
+    <div>
+      <div ref={expandRef} className={cx(classes.specialText, expanded && '-expanded')}>
+        {children}
+      </div>
+      <button type="button" className={classes.expandButton} onClick={handleClick}>
+        {expanded
+          ? <I18n.Text string="accordion.expandButton.labelCollapse" />
+          : <I18n.Text string="accordion.expandButton.labelExpand" />}
+      </button>
+    </div>
+  );
+};
+
+ExpandAndCollapse.propTypes = {
+  children: PropTypes.instanceOf(Object),
+};
+
+ExpandAndCollapse.defaultProps = {
+  children: null,
+};
 
 export default ExpandAndCollapse;

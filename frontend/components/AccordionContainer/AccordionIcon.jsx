@@ -1,16 +1,26 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import Icon from '@shopgate/pwa-common/components/Icon';
-import ArrowIcon from '@shopgate/pwa-ui-shared/icons/ArrowIcon';
+import { Icon, ArrowIcon } from '@shopgate/engage/components';
+import { makeStyles } from '@shopgate/engage/styles';
 import config from '../../config';
-import styles from './style';
 
 const {
   sectionButtonIcon,
   sectionButtonIconOpen,
   sectionButtonIconFontSize,
-  sectionButtonIconColor,
 } = config;
+
+const useStyles = makeStyles()(() => ({
+  arrow: {
+    flex: '0 0 auto',
+  },
+  arrowDown: {
+    transform: 'rotate(270deg)',
+  },
+  arrowUp: {
+    transform: 'rotate(90deg)',
+  },
+}));
 
 /**
  * AccordionIcon component
@@ -18,49 +28,45 @@ const {
  * @returns {JSX}
  */
 const AccordionIcon = ({ isOpen }) => {
-  const IconClosed = useCallback(() => (
-    <span style={{ color: sectionButtonIconColor }}>
-      { sectionButtonIcon ? (
-        <Icon
-          content={sectionButtonIcon}
-          // Apply the default class when only one icon replacement is provided with config
-          className={!sectionButtonIconOpen ? styles.arrowDown : null}
-          size={sectionButtonIconFontSize}
-        />
-      ) : (
-        <ArrowIcon
-          className={styles.arrowDown}
-          size={sectionButtonIconFontSize}
-        />
-      )}
-    </span>
-  ), []);
+  const { classes, theme } = useStyles();
 
-  const IconOpen = useCallback(() => (
-    <span style={{ color: sectionButtonIconColor }}>
-      { sectionButtonIconOpen || sectionButtonIcon ? (
-        <Icon
-          content={sectionButtonIconOpen || sectionButtonIcon}
-          // Apply the default class when only one icon replacement is provided with config
-          className={!sectionButtonIconOpen ? styles.arrowUp : null}
-          size={sectionButtonIconFontSize}
-        />
-      ) : (
-        <ArrowIcon
-          className={styles.arrowUp}
-          size={sectionButtonIconFontSize}
-        />
-      ) }
-    </span>
-  ), []);
+  if (!isOpen) {
+    return (
+      <div className={classes.arrow}>
+        <span style={{ color: theme.palette.text.primary }}>
+          { sectionButtonIcon ? (
+            <Icon
+              content={sectionButtonIcon}
+              className={!sectionButtonIconOpen ? classes.arrowDown : null}
+              size={sectionButtonIconFontSize}
+            />
+          ) : (
+            <ArrowIcon
+              className={classes.arrowDown}
+              size={sectionButtonIconFontSize}
+            />
+          )}
+        </span>
+      </div>
+    );
+  }
 
   return (
-    <div className={styles.arrow}>
-      { !isOpen ? (
-        <IconClosed />
-      ) : (
-        <IconOpen />
-      )}
+    <div className={classes.arrow}>
+      <span style={{ color: theme.palette.text.primary }}>
+        { sectionButtonIconOpen || sectionButtonIcon ? (
+          <Icon
+            content={sectionButtonIconOpen || sectionButtonIcon}
+            className={!sectionButtonIconOpen ? classes.arrowUp : null}
+            size={sectionButtonIconFontSize}
+          />
+        ) : (
+          <ArrowIcon
+            className={classes.arrowUp}
+            size={sectionButtonIconFontSize}
+          />
+        ) }
+      </span>
     </div>
   );
 };

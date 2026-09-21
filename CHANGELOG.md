@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [2.0.0] - 2026-09-21
+### Changed
+- adopted the new engage theme: accordion sections now source their background, surface and text colors from the theme (`theme.palette.background.default`/`surface`, `theme.palette.text.primary`)
+- section button and content text sizes are now sourced from the theme typography (`theme.typography.h5`/`body2`)
+- reviews are now composed from the engage core review sub-components instead of the bundled `theme-gmd`/`theme-ios11` forks (both forks removed)
+- migrated all styling from glamor to `@shopgate/engage/styles` (`makeStyles`/`useStyles`)
+- `@shopgate/engage` is now a `>=7.32.0-beta.19` peer & dev dependency (drops PWA 6 support); dropped the legacy babel/glamor toolchain
+
+### Removed
+- removed the `sectionColor`, `sectionTextColor`, `sectionBorderColor`, `sectionButtonColor`, `sectionButtonTextColor` and `sectionButtonIconColor` config options; section colors now come from the active theme
+- removed the `sectionButtonTextSize` config option; text sizes now come from the theme typography
+
 ## [1.7.0] - 2026-08-10
 ### Added
 - Added `productVariablesFromParent` config option to resolve product variables in static content from the parent product instead of the selected variant.

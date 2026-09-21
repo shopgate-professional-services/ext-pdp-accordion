@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { getProductProperties } from '@shopgate/pwa-common-commerce/product/selectors/product';
+import { getProductProperties } from '@shopgate/engage/product';
 import config from '../config';
 
 export const getFilteredProductProperties = createSelector(
