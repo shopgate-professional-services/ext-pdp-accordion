@@ -2,9 +2,6 @@
 
 Extension will display product properties, product description, product reviews and static infos in an accordion view.
 
-## Demo & Examples
-[See here](demo/index.md)
-
 ## Config
 
 - `accordionItems`: Object of accordion items.
