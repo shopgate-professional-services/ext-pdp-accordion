@@ -56,6 +56,9 @@ const useStyles = makeStyles()(theme => ({
     fontSize: theme.typography.body2.fontSize,
     lineHeight: 1.7,
     wordBreak: 'break-word',
+    paddingTop: 16,
+  },
+  sectionBlockPadding: {
     padding: 16,
   },
   sectionBorder: {
@@ -109,7 +112,7 @@ const AccordionSection = ({
         className={cx('pdp-accordion__container__section__content', classes.transitionBlock, isOpen && classes.transitionBlockOpen)}
         aria-hidden={!isOpen}
       >
-        <div className={classes.sectionBlock}>
+        <div className={cx(classes.sectionBlock, !isRating && classes.sectionBlockPadding)}>
           {children}
         </div>
       </div>

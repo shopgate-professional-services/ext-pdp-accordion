@@ -31,7 +31,6 @@ const PRODUCT_VARIABLE_PATTERN = /{\s*(productName|productId|productNumber)\s*}/
 const useStyles = makeStyles()(theme => ({
   container: {
     backgroundColor: theme.palette.background.default,
-    marginBottom: 28,
   },
 }));
 
@@ -139,7 +138,12 @@ const Accordion = ({ productId }) => {
         return sections;
       }
 
-      if (Object.keys(prevActiveSections).length === Object.keys(sections).length) {
+      const sectionKeys = Object.keys(sections);
+
+      if (
+        Object.keys(prevActiveSections).length === sectionKeys.length &&
+        sectionKeys.every(key => prevActiveSections.hasOwnProperty(key))
+      ) {
         // No new sections came in with the last configProperties update -> no activeSections update
         return prevActiveSections;
       }
