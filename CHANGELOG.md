@@ -4,7 +4,6 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
-
 ## [2.0.0] - 2026-09-21
 ### Changed
 - adopted the new engage theme: accordion sections now source their background, surface and text colors from the theme (`theme.palette.background.default`/`surface`, `theme.palette.text.primary`)
@@ -16,6 +15,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Removed
 - removed the `sectionColor`, `sectionTextColor`, `sectionBorderColor`, `sectionButtonColor`, `sectionButtonTextColor` and `sectionButtonIconColor` config options; section colors now come from the active theme
 - removed the `sectionButtonTextSize` config option; text sizes now come from the theme typography
+
+## [1.7.1] - 2026-10-27
+### Fixed
+- Scripts in static content, the product description and property values keep running with PWA 7.34.0 and later, which only runs scripts in `HtmlSanitizer` with `allowScripts`.
 
 ## [1.7.0] - 2026-08-10
 ### Added

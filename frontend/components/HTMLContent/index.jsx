@@ -51,6 +51,7 @@ const HTMLContent = ({ children, contentId, processStyles }) => {
   return (
     <div className={classes.content}>
       <HtmlSanitizer
+        allowScripts
         processStyles={processStyles}
         settings={{
           extension: 'pdp-accordion',
