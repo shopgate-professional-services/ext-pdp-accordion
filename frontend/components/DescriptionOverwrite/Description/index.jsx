@@ -1,8 +1,18 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import PlaceholderParagraph from '@shopgate/pwa-ui-shared/PlaceholderParagraph';
+import { PlaceholderParagraph } from '@shopgate/engage/components';
+import { makeStyles } from '@shopgate/engage/styles';
 import HTMLContent from '../../HTMLContent';
-import styles from './style';
+
+const useStyles = makeStyles()(theme => ({
+  container: {
+    fontSize: theme.typography.body2.fontSize,
+    userSelect: 'none',
+  },
+  placeholder: {
+    height: 14,
+  },
+}));
 
 /**
  * The Product Description component.
@@ -10,13 +20,15 @@ import styles from './style';
  * @returns {JSX}
  */
 const Description = (props) => {
+  const { classes } = useStyles();
+
   if (props.html === '') {
     return null;
   }
 
   return (
-    <div className={styles.container}>
-      <PlaceholderParagraph className={styles.placeholder} ready={!!props.html}>
+    <div className={classes.container}>
+      <PlaceholderParagraph className={classes.placeholder} ready={!!props.html}>
         <HTMLContent contentId="description">
           {props.html}
         </HTMLContent>

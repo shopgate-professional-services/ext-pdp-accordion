@@ -2,24 +2,49 @@ import React, {
   useCallback, useMemo, useState, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
-import appConfig, { themeName } from '@shopgate/pwa-common/helpers/config';
+import { useSelector } from 'react-redux';
+import { appConfig } from '@shopgate/engage';
 import { withCurrentProduct } from '@shopgate/engage/core';
-import { THEME_IOS11 } from '../../constants';
+import { makeStyles } from '@shopgate/engage/styles';
+import { getBaseProduct, getProduct } from '@shopgate/engage/product/selectors/product';
+import {
+  getProductDescription,
+  getProductProperties,
+  getProductRating,
+} from '@shopgate/engage/product';
+import { getProductReviewsExcerpt } from '@shopgate/engage/reviews';
 import getConfig from '../../helpers/getConfig';
+import { getFilteredProductProperties } from '../../selectors';
 import ExpandAndCollapse from '../ExpandAndCollapse';
 import Description from '../DescriptionOverwrite/Description';
 import Properties from '../PropertiesOverwrite';
-import ReviewsAndroid from '../ReviewsOverwrite/theme-gmd/Reviews/index';
-import ReviewsIos from '../ReviewsOverwrite/theme-ios11/Reviews/index';
+import Reviews from '../ReviewsOverwrite/Reviews';
 import AccordionSection from './AccordionSection';
 import HTMLContent from '../HTMLContent';
 import StaticContent from '../StaticContent';
-import connect from './connector';
-import styles from './style';
+import config from '../../config.json';
 
 const { allowMultipleOpen, productVariablesFromParent } = getConfig();
 
 const PRODUCT_VARIABLE_PATTERN = /{\s*(productName|productId|productNumber)\s*}/;
+
+const useStyles = makeStyles()(theme => ({
+  container: {
+    backgroundColor: theme.palette.background.default,
+  },
+}));
+
+/**
+ * Filters and sorts the configured accordion items against the product's properties.
+ * @param {Array} accordionItems Configured accordion items.
+ * @param {Array} productProperties The product's properties.
+ * @returns {Array}
+ */
+const prepareProperties = (accordionItems, productProperties) => accordionItems
+  .filter(property => (['reviews', 'description', 'static', 'properties'].indexOf(property.type) > -1) ||
+      (property.type === 'property' &&
+        productProperties.some(productProperty => productProperty.label === property.name)))
+  .sort((firstProperty, secondProperty) => firstProperty.sortOrder - secondProperty.sortOrder);
 
 /**
  * Gets the product number from available product fields.
@@ -69,17 +94,25 @@ const getProductVariables = (primary, fallback) => ({
  * @param {Object} props The component props
  * @returns {JSX}
  */
-const Accordion = ({
-  configProperties,
-  description,
-  product,
-  baseProduct,
-  productProperties,
-  filteredProductProperties,
-  rating,
-  reviews,
-}) => {
+const Accordion = ({ productId }) => {
+  const { classes } = useStyles();
   const [activeSections, setActiveSections] = useState(null);
+
+  const product = useSelector(state => getProduct(state, { productId }));
+  const baseProduct = useSelector(state => getBaseProduct(state, { productId }));
+  const description = useSelector(state => getProductDescription(state, { productId })) || '';
+  const productProperties = useSelector(state => getProductProperties(state, { productId })) || [];
+  const filteredProductProperties = useSelector(
+    state => getFilteredProductProperties(state, { productId })
+  ) || [];
+  const rating = useSelector(state => getProductRating(state, { productId })) || {};
+  const reviews = useSelector(state => getProductReviewsExcerpt(state, { productId })) || [];
+
+  const configProperties = useMemo(
+    () => prepareProperties(config.accordionItems, productProperties),
+    [productProperties]
+  );
+
   const primaryProduct = productVariablesFromParent ? baseProduct : product;
   const fallbackProduct = productVariablesFromParent ? null : baseProduct;
 
@@ -105,7 +138,12 @@ const Accordion = ({
         return sections;
       }
 
-      if (Object.keys(prevActiveSections).length === Object.keys(sections).length) {
+      const sectionKeys = Object.keys(sections);
+
+      if (
+        Object.keys(prevActiveSections).length === sectionKeys.length &&
+        sectionKeys.every(key => prevActiveSections.hasOwnProperty(key))
+      ) {
         // No new sections came in with the last configProperties update -> no activeSections update
         return prevActiveSections;
       }
@@ -135,10 +173,8 @@ const Accordion = ({
           : null;
       }
       case 'reviews': {
-        const Reviews = themeName.includes(THEME_IOS11) ? ReviewsIos : ReviewsAndroid;
-
         return (appConfig.hasReviews && (reviews.length || appConfig.showWriteReview))
-          ? <Reviews rating={rating} reviews={reviews} />
+          ? <Reviews />
           : null;
       }
       case 'static': {
@@ -208,7 +244,7 @@ const Accordion = ({
   }
 
   return (
-    <div className={`pdp-accordion__container ${styles.container}`}>
+    <div className={`pdp-accordion__container ${classes.container}`}>
       { configProperties.map((configProperty, index) => {
         const { name, headline, preview } = configProperty;
         const label = headline || name;
@@ -244,25 +280,11 @@ const Accordion = ({
 };
 
 Accordion.propTypes = {
-  baseProduct: PropTypes.shape(),
-  configProperties: PropTypes.arrayOf(PropTypes.shape()),
-  description: PropTypes.string,
-  filteredProductProperties: PropTypes.arrayOf(PropTypes.shape()),
-  product: PropTypes.shape(),
-  productProperties: PropTypes.arrayOf(PropTypes.shape()),
-  rating: PropTypes.shape(),
-  reviews: PropTypes.arrayOf(PropTypes.shape()),
+  productId: PropTypes.string,
 };
 
 Accordion.defaultProps = {
-  baseProduct: null,
-  configProperties: [],
-  description: '',
-  product: null,
-  productProperties: [],
-  filteredProductProperties: [],
-  rating: null,
-  reviews: [],
+  productId: null,
 };
 
-export default withCurrentProduct(connect(Accordion));
+export default withCurrentProduct(Accordion);

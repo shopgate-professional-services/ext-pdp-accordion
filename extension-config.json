@@ -43,60 +43,6 @@
     }
   ],
   "configuration": {
-    "sectionColor": {
-      "type": "admin",
-      "destination": "frontend",
-      "default": "",
-      "params": {
-        "type": "text",
-        "label": "Background color of an open section"
-      }
-    },
-    "sectionTextColor": {
-      "type": "admin",
-      "destination": "frontend",
-      "default": "",
-      "params": {
-        "type": "text",
-        "label": "Text color of an open section"
-      }
-    },
-    "sectionBorderColor": {
-      "type": "admin",
-      "destination": "frontend",
-      "default": "",
-      "params": {
-        "type": "text",
-        "label": "Section border color"
-      }
-    },
-    "sectionButtonColor": {
-      "type": "admin",
-      "destination": "frontend",
-      "default": "",
-      "params": {
-        "type": "text",
-        "label": "Button color"
-      }
-    },
-    "sectionButtonTextColor": {
-      "type": "admin",
-      "destination": "frontend",
-      "default": "",
-      "params": {
-        "type": "text",
-        "label": "Button text color"
-      }
-    },
-    "sectionButtonTextSize": {
-      "type": "admin",
-      "destination": "frontend",
-      "default": "",
-      "params": {
-        "type": "text",
-        "label": "Button text size"
-      }
-    },
     "sectionPreviewHeight": {
       "type": "admin",
       "destination": "frontend",
@@ -159,15 +105,6 @@
       "params": {
         "type": "text",
         "label": "Font size for the SVG icon eg. 24px"
-      }
-    },
-    "sectionButtonIconColor": {
-      "type": "admin",
-      "destination": "frontend",
-      "default": "",
-      "params": {
-        "type": "text",
-        "label": "Font color for the SVG icon"
       }
     },
     "showLastSectionBottomBorder": {
