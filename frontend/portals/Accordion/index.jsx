@@ -1,15 +1,25 @@
 import React from 'react';
+import { makeStyles } from '@shopgate/engage/styles';
 import AccordionContainer from '../../components/AccordionContainer';
-import { container } from './styles';
+
+const useStyles = makeStyles()(() => ({
+  container: {
+    paddingBottom: 16,
+  },
+}));
 
 /**
  * The Accordion component
  * @returns {JSX}
  */
-const Accordion = () => (
-  <div className={`pdp-accordion ${container}`}>
-    <AccordionContainer />
-  </div>
-);
+const Accordion = () => {
+  const { classes } = useStyles();
+
+  return (
+    <div className={`pdp-accordion ${classes.container}`}>
+      <AccordionContainer />
+    </div>
+  );
+};
 
 export default Accordion;

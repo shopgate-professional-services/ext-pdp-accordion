@@ -1,17 +1,27 @@
-import { withCurrentProduct } from '@shopgate/engage/core';
-import connect from './connector';
+import PropTypes from 'prop-types';
+import config from '../../config.json';
+
+const show = !config.accordionItems.some(property => property.type === 'reviews');
 
 /**
- * The ReviewsOverwrite component.
+ * The ReviewsOverwrite component to make sure no duplicate reviews are shown.
  *
  * @param {Object} props The component props.
  * @returns {JSX|null}
  */
-const ReviewsOverwrite = ({ show, children }) => {
+const ReviewsOverwrite = ({ children }) => {
   if (!show) {
     return null;
   }
   return children;
 };
 
-export default withCurrentProduct(connect(ReviewsOverwrite));
+ReviewsOverwrite.propTypes = {
+  children: PropTypes.node,
+};
+
+ReviewsOverwrite.defaultProps = {
+  children: null,
+};
+
+export default ReviewsOverwrite;
